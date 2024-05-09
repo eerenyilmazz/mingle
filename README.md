@@ -1,16 +1,16 @@
-# mingle
+# Mingle
 
-A new Flutter project.
+Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu uygulama, etkinlikleri görüntüleyebileceğiniz, etkinliklere katılabileceğiniz, katılımcılarla eşleşebileceğiniz ve iletişim kurabileceğiniz bir platform sağlar. Firebase kullanılarak kullanıcı kimlik doğrulaması, veritabanı yönetimi ve mesajlaşma işlevselliği sağlanmıştır.
 
-## Getting Started
+## Özellikler
 
-This project is a starting point for a Flutter application.
+- Etkinliklerin görüntülenmesi ve aranması
+- Etkinliklere katılma ve bilet satın alma
+- Katılımcılar arasında eşleşme yapma
+- Eşleşen katılımcılar arasında mesajlaşma
 
-A few resources to get you started if this is your first Flutter project:
+## Kullanılan Teknolojiler
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Dart
+- Flutter
+- Firebase (Auth, Firestore, Messaging)
