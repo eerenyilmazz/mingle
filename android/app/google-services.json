@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "646859282122",
+    "project_id": "connectme-54fef",
+    "storage_bucket": "connectme-54fef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646859282122:android:eec1d22f344ed0026d4633",
+        "android_client_info": {
+          "package_name": "com.example.mingle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdHL-ba3dB0Dm-2sMZ7DrJXYxhXoOcpdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
