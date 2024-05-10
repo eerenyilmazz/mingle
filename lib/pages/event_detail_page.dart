@@ -10,37 +10,46 @@ import '../models/event_model.dart';
 import '../utils/datetime_utils.dart';
 import '../widgets/ui_helper.dart';
 
-
 class EventDetailPage extends StatefulWidget {
   final Event event;
-  const EventDetailPage(this.event, {super.key});
+
+  const EventDetailPage(this.event, {Key? key}) : super(key: key);
+
   @override
   _EventDetailPageState createState() => _EventDetailPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
-  late Event event = widget.event;
-  late AnimationController controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 300),
-  );
-  late AnimationController bodyScrollAnimationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 300),
-  );
+class _EventDetailPageState extends State<EventDetailPage>
+    with TickerProviderStateMixin {
+  late Event event;
+  late AnimationController controller;
+  late AnimationController bodyScrollAnimationController;
   late ScrollController scrollController;
   late Animation<double> scale;
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
+
   @override
   void initState() {
+    super.initState();
+    event = widget.event;
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    bodyScrollAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
     scrollController = ScrollController()
       ..addListener(() {
         if (scrollController.offset >= headerImageSize / 2) {
-          if (!bodyScrollAnimationController.isCompleted) bodyScrollAnimationController.forward();
+          if (!bodyScrollAnimationController.isCompleted)
+            bodyScrollAnimationController.forward();
         } else {
-          if (bodyScrollAnimationController.isCompleted) bodyScrollAnimationController.reverse();
+          if (bodyScrollAnimationController.isCompleted)
+            bodyScrollAnimationController.reverse();
         }
       });
 
@@ -53,7 +62,6 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
       curve: Curves.linear,
       parent: controller,
     ));
-    super.initState();
   }
 
   @override
@@ -178,7 +186,8 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               child: InkWell(
                 customBorder: border,
                 onTap: () {
-                  if (bodyScrollAnimationController.isCompleted) bodyScrollAnimationController.reverse();
+                  if (bodyScrollAnimationController.isCompleted)
+                    bodyScrollAnimationController.reverse();
                   Navigator.of(context).pop();
                 },
                 child: Padding(
@@ -190,7 +199,8 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                 ),
               ),
             ),
-            if (hasTitle) Text(event.name, style: titleStyle.copyWith(color: Colors.white)),
+            if (hasTitle)
+              Text(event.name, style: titleStyle.copyWith(color: Colors.white)),
             Card(
               shape: const CircleBorder(),
               elevation: 0,
@@ -254,8 +264,6 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     );
   }
 
-
-
   Widget buildAboutEvent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,36 +299,42 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Location',
           style: headerStyle,
         ),
         UIHelper.verticalSpace(8),
         GestureDetector(
           onTap: () {
-            _launchMaps(); // Google Haritalar'ı açan fonksiyonu çağırın
+            _launchMaps();
           },
-          child: Text(
-            event.location,
-            style: subtitleStyle.copyWith(color: Theme.of(context).primaryColor, decoration: TextDecoration.underline),
+          child: Row(
+            children: [
+              Icon(
+                Icons.location_on,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                event.location,
+                style: subtitleStyle.copyWith(color: Theme.of(context).primaryColor),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-
   void _launchMaps() async {
-    String location = event.location.replaceAll(' ', '+'); // Boşlukları '+' işaretiyle değiştir
+    String location = event.location.replaceAll(' ', '+');
     String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$location';
-    print('Google Haritalar URL: $googleMapsUrl'); // URL'yi konsola yazdır
     if (await canLaunch(googleMapsUrl)) {
       await launch(googleMapsUrl);
     } else {
       throw 'Could not launch $googleMapsUrl';
     }
   }
-
 
   Widget buildPriceInfo() {
     return Container(
