@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../constant/text_style.dart';
 import '../models/event_model.dart';
-import '../services/event_service.dart'; // EventService'ı ekledik
+import '../services/event_service.dart';
 import '../utils/app_utils.dart';
-import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/home_bg_color.dart';
 import '../widgets/nearby_event_card.dart';
 import '../widgets/ui_helper.dart';
@@ -13,14 +11,13 @@ import '../widgets/upcoming_event_card.dart';
 import 'event_detail_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key}); // Key'yi düzelttim
+  const MyHomePage({super.key});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  int _currentIndex = 0;
 
   late ScrollController scrollController = ScrollController();
   late AnimationController controller = AnimationController(
@@ -33,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   );
   late Animation<double> opacity;
 
-  final EventService _eventService = EventService(); // EventService örneği oluşturduk
+  final EventService _eventService = EventService();
 
   void viewEventDetail(Event event) {
     Navigator.of(context).push(
@@ -87,28 +84,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 buildSearchAppBar(),
                 UIHelper.verticalSpace(16),
                 FutureBuilder<List<Event>>(
-                  future: _eventService.getUpcomingEvents(DateTime.now().add(const Duration(days: 7))), // Yaklaşık 1 hafta sonrasına kadar olan etkinlikleri getiriyoruz
+                  future: _eventService.getUpcomingEvents(DateTime.now().add(const Duration(days: 7))),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // Veriler yüklenirken gösterilecek yüklenme animasyonu
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}'); // Hata durumunda hata mesajı göster
+                      return Text('Error: ${snapshot.error}');
                     } else {
-                      return buildUpComingEventList(snapshot.data!); // Veriler geldiyse etkinlik listesini oluştur
+                      return buildUpComingEventList(snapshot.data!);
                     }
                   },
                 ),
 
                 UIHelper.verticalSpace(16),
                 FutureBuilder<List<Event>>(
-                  future: _eventService.getNearbyEvents(), // Firebase'den yakındaki etkinlikleri çekiyoruz
+                  future: _eventService.getNearbyEvents(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // Veriler yüklenirken gösterilecek yüklenme animasyonu
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}'); // Hata durumunda hata mesajı göster
+                      return Text('Error: ${snapshot.error}');
                     } else {
-                      return buildNearbyConcerts(snapshot.data!); // Veriler geldiyse yakındaki etkinlik listesini oluştur
+                      return buildNearbyConcerts(snapshot.data!);
                     }
                   },
                 ),
@@ -116,10 +113,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: HomePageButtonNavigationBar(
-        onTap: (index) => setState(() => _currentIndex = index),
-        currentIndex: _currentIndex,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,

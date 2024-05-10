@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/pages/signup_screen.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../utils/form_validator_utils.dart';
 import '../widgets/user/primary_button.dart';
-import '../widgets/user/social_authentication_card.dart';
 import '../widgets/user/text_button.dart';
 import '../widgets/user/text_input_field.dart';
 import '../widgets/user/widgets.dart';
+import 'home_page.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -35,6 +35,18 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _login() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyHomePage()));
+    } catch (e) {
+      // Handle login errors here
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -56,9 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: _bottomSheet()),
       ),
     );
   }
@@ -104,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
             MyTextButton(
               text: "Forgot Password?",
               onPressed: () {
-                print("Forgot password pressed");
               },
             ),
           ],
@@ -112,16 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 20),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 40),
+          width: double.infinity,
           child: PrimaryButton(
               text: "LOGIN",
               onPressed: () {
                 if (_formKey.currentState?.validate() == true) {
-                  String email = emailController.value.text;
-                  String password = passwordController.value.text;
-
+                  _login();
                 }
               }),
-          width: double.infinity,
         ),
         const SizedBox(height: 20),
         Row(
@@ -131,50 +137,12 @@ class _LoginScreenState extends State<LoginScreen> {
             MyTextButton(
               text: "Sign up",
               onPressed: () {
-                print("SignUp pressed");
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SignupScreen()));
+                    MaterialPageRoute(builder: (context) => const SignupScreen()));
               },
             ),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _bottomSheet() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AppWidgets.getOrOptionDivider(context, "Sign in with"),
-        const SizedBox(height: 16),
-        _facebookAndGoogle()
-      ],
-    );
-  }
-
-  Widget _facebookAndGoogle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SocialAuthentication(
-            icon: Image.asset(
-              "assets/images/fb_icon.png",
-              height: 40,
-            ),
-            title: "FACEBOOK",
-            onPressed: () {
-              //Facebook login Logic here
-            }),
-        SocialAuthentication(
-            icon: Image.asset(
-              "assets/images/google_icon.png",
-              height: 40,
-            ),
-            title: "GOOGLE",
-            onPressed: () {
-              //Google login Logic here
-            })
       ],
     );
   }

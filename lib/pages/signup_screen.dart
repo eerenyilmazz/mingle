@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-
 import '../utils/form_validator_utils.dart';
 import '../widgets/user/primary_button.dart';
-import '../widgets/user/social_authentication_card.dart';
 import '../widgets/user/text_button.dart';
 import '../widgets/user/text_input_field.dart';
 import '../widgets/user/widgets.dart';
+import '../models/user_model.dart';
+import '../services/user_service.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -16,18 +16,23 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   late TextEditingController fullNameController;
+  late TextEditingController ageController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   final _formKey = GlobalKey<FormState>();
 
+  late UserService _userService;
+
   @override
   void initState() {
+    super.initState();
     fullNameController = TextEditingController();
+    ageController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
-    super.initState();
+    _userService = UserService();
   }
 
   @override
@@ -36,6 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    ageController.dispose();
     super.dispose();
   }
 
@@ -46,7 +52,6 @@ class _SignupScreenState extends State<SignupScreen> {
       body: Container(
         height: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        // color: Colors.red,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -60,9 +65,6 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: _bottomSheet()),
     );
   }
 
@@ -80,6 +82,15 @@ class _SignupScreenState extends State<SignupScreen> {
             controller: fullNameController,
             validator: (value) {
               return MyFormValidator.textValidator(value: value, minLength: 3);
+            },
+          ),
+          const SizedBox(height: 20),
+          MyTextInputField(
+            title: "Age",
+            hint: "Your age",
+            controller: ageController,
+            validator: (value) {
+              return MyFormValidator.ageValidator(age: value);
             },
           ),
           const SizedBox(height: 20),
@@ -125,18 +136,13 @@ class _SignupScreenState extends State<SignupScreen> {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 40),
+          width: double.infinity,
           child: PrimaryButton(
             text: "SIGN UP",
             onPressed: () {
-              if (_formKey.currentState?.validate() == true) {
-                String fullName = fullNameController.value.text;
-                String email = emailController.value.text;
-                String password = passwordController.value.text;
-                //Do your Logic here
-              }
+              _signUp(); // Calling signup function
             },
           ),
-          width: double.infinity,
         ),
         const SizedBox(height: 20),
         Row(
@@ -155,42 +161,25 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _bottomSheet() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AppWidgets.getOrOptionDivider(context, "Sign up with"),
-        const SizedBox(height: 16),
-        _facebookAndGoogle()
-      ],
-    );
-  }
+  void _signUp() async {
+    if (_formKey.currentState?.validate() == true) {
+      String fullName = fullNameController.value.text;
+      String email = emailController.value.text;
+      String password = passwordController.value.text;
 
-  Widget _facebookAndGoogle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SocialAuthentication(
-            icon: Image.asset(
-              "assets/images/fb_icon.png",
-              height: 40,
-            ),
-            title: "FACEBOOK",
-            onPressed: () {
-              //Facebook login logic here
-            }),
-        SocialAuthentication(
-            icon: Image.asset(
-              "assets/images/google_icon.png",
-              height: 40,
-            ),
-            title: "GOOGLE",
-            onPressed: () {
-              //Google login logic here
-            })
-      ],
-    );
+
+      User? newUser = await _userService.signUp(
+        fullName: fullName,
+        age: int.parse(ageController.value.text),
+        email: email,
+        password: password,
+      );
+
+      if (newUser != null) {
+        // Navigate to home screen or do something else
+      } else {
+        // Handle signup failure
+      }
+    }
   }
 }
-
-

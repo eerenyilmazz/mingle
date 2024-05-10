@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
-  String id; // Belge ID'si
+  String id;
   String name;
   String description;
   DateTime eventDate;

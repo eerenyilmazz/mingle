@@ -13,7 +13,7 @@ import '../widgets/ui_helper.dart';
 class EventDetailPage extends StatefulWidget {
   final Event event;
 
-  const EventDetailPage(this.event, {Key? key}) : super(key: key);
+  const EventDetailPage(this.event, {super.key});
 
   @override
   _EventDetailPageState createState() => _EventDetailPageState();
@@ -45,11 +45,13 @@ class _EventDetailPageState extends State<EventDetailPage>
     scrollController = ScrollController()
       ..addListener(() {
         if (scrollController.offset >= headerImageSize / 2) {
-          if (!bodyScrollAnimationController.isCompleted)
+          if (!bodyScrollAnimationController.isCompleted) {
             bodyScrollAnimationController.forward();
+          }
         } else {
-          if (bodyScrollAnimationController.isCompleted)
+          if (bodyScrollAnimationController.isCompleted) {
             bodyScrollAnimationController.reverse();
+          }
         }
       });
 
@@ -186,8 +188,9 @@ class _EventDetailPageState extends State<EventDetailPage>
               child: InkWell(
                 customBorder: border,
                 onTap: () {
-                  if (bodyScrollAnimationController.isCompleted)
+                  if (bodyScrollAnimationController.isCompleted) {
                     bodyScrollAnimationController.reverse();
+                  }
                   Navigator.of(context).pop();
                 },
                 child: Padding(
