@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constant/text_style.dart';
 import '../models/event_model.dart';
 import '../services/event_service.dart';
@@ -31,6 +30,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late Animation<double> opacity;
 
   final EventService _eventService = EventService();
+  List<Event> _upcomingEvents = [];
+  List<Event> _nearbyEvents = [];
+  String _searchQuery = '';
 
   void viewEventDetail(Event event) {
     Navigator.of(context).push(
@@ -59,6 +61,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
     });
     super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final upcomingEvents = await _eventService.getUpcomingEvents(DateTime.now().add(const Duration(days: 7)));
+    final nearbyEvents = await _eventService.getNearbyEvents();
+    setState(() {
+      _upcomingEvents = upcomingEvents;
+      _nearbyEvents = nearbyEvents;
+    });
   }
 
   @override
@@ -83,42 +95,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               children: <Widget>[
                 buildSearchAppBar(),
                 UIHelper.verticalSpace(16),
-                FutureBuilder<List<Event>>(
-                  future: _eventService.getUpcomingEvents(DateTime.now().add(const Duration(days: 7))),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return buildUpComingEventList(snapshot.data!);
-                    }
-                  },
-                ),
-
+                buildUpComingEventList(),
                 UIHelper.verticalSpace(16),
-                FutureBuilder<List<Event>>(
-                  future: _eventService.getNearbyEvents(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return buildNearbyConcerts(snapshot.data!);
-                    }
-                  },
-                ),
+                buildNearbyConcerts(),
               ],
             ),
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(FontAwesomeIcons.qrcode),
       ),
     );
   }
@@ -127,22 +110,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     const inputBorder = UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.white),
     );
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextField(
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white),
+        decoration: const InputDecoration(
           hintText: "Search...",
           hintStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
           border: inputBorder,
           enabledBorder: inputBorder,
           focusedBorder: inputBorder,
         ),
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
       ),
     );
   }
 
-  Widget buildUpComingEventList(List<Event> events) {
+  Widget buildUpComingEventList() {
+    final filteredEvents = _upcomingEvents.where((event) => event.name.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
     return Container(
       padding: const EdgeInsets.only(left: 16),
       child: Column(
@@ -156,11 +145,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           SizedBox(
             height: 250,
             child: ListView.builder(
-              itemCount: events.length,
+              itemCount: filteredEvents.length,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                final event = events[index];
+                final event = filteredEvents[index];
                 return UpComingEventCard(event: event, onTap: () => viewEventDetail(event));
               },
             ),
@@ -170,7 +159,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildNearbyConcerts(List<Event> events) {
+  Widget buildNearbyConcerts() {
+    final filteredEvents = _nearbyEvents.where((event) => event.name.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -190,15 +180,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ],
           ),
           ListView.builder(
-            itemCount: events.length,
+            itemCount: filteredEvents.length,
             shrinkWrap: true,
             primary: false,
             itemBuilder: (context, index) {
-              final event = events[index];
+              final event = filteredEvents[index];
               var animation = Tween<double>(begin: 800.0, end: 0.0).animate(
                 CurvedAnimation(
                   parent: controller,
-                  curve: Interval((1 / events.length) * index, 1.0, curve: Curves.decelerate),
+                  curve: Interval((1 / filteredEvents.length) * index, 1.0, curve: Curves.decelerate),
                 ),
               );
               return AnimatedBuilder(

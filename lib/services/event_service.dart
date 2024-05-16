@@ -18,3 +18,5 @@ class EventService {
     return querySnapshot.docs.map((doc) => Event.fromFirestore(doc)).toList();
   }
 }
+
+

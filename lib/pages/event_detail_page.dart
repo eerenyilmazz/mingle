@@ -2,25 +2,29 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mingle/pages/ticket_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constant/color.dart';
 import '../constant/text_style.dart';
 import '../models/event_model.dart';
+import '../models/ticket_model.dart';
+import '../models/user_model.dart';
+import '../services/ticket_service.dart';
+import '../services/user_service.dart';
 import '../utils/datetime_utils.dart';
 import '../widgets/ui_helper.dart';
 
 class EventDetailPage extends StatefulWidget {
   final Event event;
 
-  const EventDetailPage(this.event, {super.key});
+  const EventDetailPage(this.event, {Key? key}) : super(key: key);
 
   @override
   _EventDetailPageState createState() => _EventDetailPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage>
-    with TickerProviderStateMixin {
+class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
   late Event event;
   late AnimationController controller;
   late AnimationController bodyScrollAnimationController;
@@ -29,6 +33,8 @@ class _EventDetailPageState extends State<EventDetailPage>
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
+  late User? currentUser;
+  bool hasTicket = false;
 
   @override
   void initState() {
@@ -64,6 +70,8 @@ class _EventDetailPageState extends State<EventDetailPage>
       curve: Curves.linear,
       parent: controller,
     ));
+
+    getCurrentUser();
   }
 
   @override
@@ -71,6 +79,23 @@ class _EventDetailPageState extends State<EventDetailPage>
     controller.dispose();
     bodyScrollAnimationController.dispose();
     super.dispose();
+  }
+
+  void getCurrentUser() async {
+    User? user = await UserService().getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+    checkUserTicket();
+  }
+
+  void checkUserTicket() async {
+    if (currentUser != null) {
+      bool hasTicket = await TicketService().userHasTicket(currentUser!, event);
+      setState(() {
+        this.hasTicket = hasTicket;
+      });
+    }
   }
 
   @override
@@ -104,7 +129,6 @@ class _EventDetailPageState extends State<EventDetailPage>
                           UIHelper.verticalSpace(24),
                           buildEventLocation(),
                           UIHelper.verticalSpace(124),
-                          //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
                         ],
                       ),
                     ),
@@ -377,9 +401,76 @@ class _EventDetailPageState extends State<EventDetailPage>
                 backgroundColor: Theme.of(context).primaryColor,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
-              onPressed: () {},
+              onPressed: hasTicket
+                  ? () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return TicketPageDialog(
+                      ticket: Ticket(
+                        userId: currentUser!.uid,
+                        userName: currentUser!.fullName,
+                        userEmail: currentUser!.email,
+                        eventId: event.id,
+                        eventName: event.name,
+                        eventDate: event.eventDate,
+                        eventLocation: event.location,
+                        eventPrice: event.price,
+                      ),
+                    );
+                  },
+                );
+              }
+                  : () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Confirm Purchase'),
+                      content: const Text('Are you sure you want to purchase a ticket for this event?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            if (currentUser != null) {
+                              TicketService().buyTicket(currentUser!, event);
+                              setState(() {
+                                hasTicket = true;
+                              });
+                              Navigator.of(context).pop();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TicketPageDialog(
+                                    ticket: Ticket(
+                                      userId: currentUser!.uid,
+                                      userName: currentUser!.fullName,
+                                      userEmail: currentUser!.email,
+                                      eventId: event.id,
+                                      eventName: event.name,
+                                      eventDate: event.eventDate,
+                                      eventLocation: event.location,
+                                      eventPrice: event.price,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          child: const Text('Confirm'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
               child: Text(
-                "Get a Ticket",
+                hasTicket ? "View Ticket" : "Get a Ticket",
                 style: titleStyle.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
               ),
             ),
@@ -388,4 +479,5 @@ class _EventDetailPageState extends State<EventDetailPage>
       ),
     );
   }
+
 }

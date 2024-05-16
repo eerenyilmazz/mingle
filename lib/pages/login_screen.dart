@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/pages/signup_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../services/user_service.dart';
 import '../utils/form_validator_utils.dart';
 import '../widgets/user/primary_button.dart';
 import '../widgets/user/text_button.dart';
 import '../widgets/user/text_input_field.dart';
 import '../widgets/user/widgets.dart';
 import 'home_page.dart';
-
+import '../models/user_model.dart' as CustomUser;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
+  final UserService _userService = UserService();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -36,20 +38,31 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    if (_formKey.currentState?.validate() == true) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      CustomUser.User? user = await _userService.signIn(
         email: emailController.text,
         password: passwordController.text,
       );
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyHomePage()));
-    } catch (e) {
-      // Handle login errors here
+      if (user != null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const MyHomePage(),
+        ));
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppWidgets.getAppBar(context),
         body: Container(
@@ -63,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   formFields(),
                   const SizedBox(height: 50),
                   _interactions(),
+                  _isLoading ? const CircularProgressIndicator() : const SizedBox(),
                 ],
               ),
             ),
@@ -90,14 +104,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 20),
           MyTextInputField(
-              title: "Password",
-              hint: "Password",
-              isPassword: true,
-              controller: passwordController,
-              validator: (value) {
-                return MyFormValidator.passwordValidator(
-                    password: value, minLength: 6);
-              }),
+            title: "Password",
+            hint: "Password",
+            isPassword: true,
+            controller: passwordController,
+            validator: (value) {
+              return MyFormValidator.passwordValidator(
+                password: value,
+                minLength: 6,
+              );
+            },
+          ),
         ],
       ),
     );
@@ -113,6 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
             MyTextButton(
               text: "Forgot Password?",
               onPressed: () {
+                // Add forgot password logic
               },
             ),
           ],
@@ -122,12 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 40),
           width: double.infinity,
           child: PrimaryButton(
-              text: "LOGIN",
-              onPressed: () {
-                if (_formKey.currentState?.validate() == true) {
-                  _login();
-                }
-              }),
+            text: "LOGIN",
+            onPressed: _login,
+          ),
         ),
         const SizedBox(height: 20),
         Row(
@@ -137,8 +152,9 @@ class _LoginScreenState extends State<LoginScreen> {
             MyTextButton(
               text: "Sign up",
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SignupScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SignupScreen(),
+                ));
               },
             ),
           ],
