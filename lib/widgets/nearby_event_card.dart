@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/widgets/ui_helper.dart';
 
-import '../constant/color.dart';
-import '../constant/text_style.dart';
+import '../utils/constants.dart';
+import '../utils/text_style.dart';
 import '../models/event_model.dart';
 import '../utils/datetime_utils.dart';
 

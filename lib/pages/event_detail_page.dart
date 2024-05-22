@@ -3,28 +3,28 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mingle/pages/ticket_page.dart';
+import 'package:mingle/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constant/color.dart';
-import '../constant/text_style.dart';
+import '../data/db/entity/app_user.dart';
 import '../models/event_model.dart';
 import '../models/ticket_model.dart';
-import '../models/user_model.dart';
 import '../services/ticket_service.dart';
-import '../services/user_service.dart';
 import '../utils/datetime_utils.dart';
+import '../utils/text_style.dart';
 import '../widgets/ui_helper.dart';
 
 class EventDetailPage extends StatefulWidget {
   final Event event;
 
-  const EventDetailPage(this.event, {Key? key}) : super(key: key);
+  const EventDetailPage(this.event, {super.key});
 
   @override
   _EventDetailPageState createState() => _EventDetailPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
+class _EventDetailPageState extends State<EventDetailPage>
+    with TickerProviderStateMixin {
   late Event event;
   late AnimationController controller;
   late AnimationController bodyScrollAnimationController;
@@ -33,8 +33,8 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
-  late User? currentUser;
-  bool hasTicket = false;
+  final TicketService _ticketService = TicketService();
+
 
   @override
   void initState() {
@@ -70,8 +70,6 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
       curve: Curves.linear,
       parent: controller,
     ));
-
-    getCurrentUser();
   }
 
   @override
@@ -79,23 +77,6 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     controller.dispose();
     bodyScrollAnimationController.dispose();
     super.dispose();
-  }
-
-  void getCurrentUser() async {
-    User? user = await UserService().getCurrentUser();
-    setState(() {
-      currentUser = user;
-    });
-    checkUserTicket();
-  }
-
-  void checkUserTicket() async {
-    if (currentUser != null) {
-      bool hasTicket = await TicketService().userHasTicket(currentUser!, event);
-      setState(() {
-        this.hasTicket = hasTicket;
-      });
-    }
   }
 
   @override
@@ -129,6 +110,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                           UIHelper.verticalSpace(24),
                           buildEventLocation(),
                           UIHelper.verticalSpace(124),
+                          //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
                         ],
                       ),
                     ),
@@ -262,7 +244,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            color: primaryLight,
+            color: kPrimaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
@@ -307,6 +289,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     return Row(
       children: <Widget>[
         CircleAvatar(
+          backgroundColor: kAccentColor,
           child: Text(event.organizer[0]),
         ),
         UIHelper.horizontalSpace(16),
@@ -364,120 +347,225 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   }
 
   Widget buildPriceInfo() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      color: Colors.white,
-      width: MediaQuery.of(context).size.width,
-      child: SafeArea(
-        top: false,
-        child: Row(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text("Price", style: subtitleStyle),
-                UIHelper.verticalSpace(8),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "\$${event.price}",
-                        style: titleStyle.copyWith(color: Theme.of(context).primaryColor),
-                      ),
-                      const TextSpan(
-                        text: "/per person",
-                        style: TextStyle(color: Colors.black),
+    return FutureBuilder<String>(
+      future: _getButtonLabel(event),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator(); // Placeholder widget while loading
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}'); // Error handling
+        } else {
+          final String buttonLabel = snapshot.data!;
+          return Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            child: SafeArea(
+              top: false,
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text("Price", style: subtitleStyle),
+                      UIHelper.verticalSpace(8),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "\$${event.price}",
+                              style: titleStyle.copyWith(color: Theme.of(context).primaryColor),
+                            ),
+                            const TextSpan(
+                              text: "/per person",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: const StadiumBorder(),
-                backgroundColor: Theme.of(context).primaryColor,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              onPressed: hasTicket
-                  ? () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return TicketPageDialog(
-                      ticket: Ticket(
-                        userId: currentUser!.uid,
-                        userName: currentUser!.fullName,
-                        userEmail: currentUser!.email,
-                        eventId: event.id,
-                        eventName: event.name,
-                        eventDate: event.eventDate,
-                        eventLocation: event.location,
-                        eventPrice: event.price,
-                      ),
-                    );
-                  },
-                );
-              }
-                  : () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Confirm Purchase'),
-                      content: const Text('Are you sure you want to purchase a ticket for this event?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (currentUser != null) {
-                              TicketService().buyTicket(currentUser!, event);
-                              setState(() {
-                                hasTicket = true;
-                              });
-                              Navigator.of(context).pop();
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return TicketPageDialog(
-                                    ticket: Ticket(
-                                      userId: currentUser!.uid,
-                                      userName: currentUser!.fullName,
-                                      userEmail: currentUser!.email,
-                                      eventId: event.id,
-                                      eventName: event.name,
-                                      eventDate: event.eventDate,
-                                      eventLocation: event.location,
-                                      eventPrice: event.price,
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          child: const Text('Confirm'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Text(
-                hasTicket ? "View Ticket" : "Get a Ticket",
-                style: titleStyle.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                  const Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    ),
+                    onPressed: () {
+                      _ticketAction(event);
+                    },
+                    child: Text(
+                      buttonLabel,
+                      style: titleStyle.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
+
+
+  Future<String> _getButtonLabel(Event event) async {
+    final bool hasTicket = await _ticketService.hasTicketForEvent(event);
+    return hasTicket ? "Bileti Görüntüle" : "Bilet Al";
+  }
+
+
+  void _ticketAction(Event event) async {
+    final TicketService ticketService = TicketService();
+    final AppUser? currentUser = await ticketService.getCurrentUser();
+    if (currentUser != null) {
+      final bool hasTicket = await ticketService.userHasTicket(currentUser, event);
+      if (hasTicket) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return TicketPageDialog(ticket: Ticket.fromEvent(event, currentUser.id, currentUser.name));
+          },
+        );
+      } else {
+        try {
+          await ticketService.buyTicket(event);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: kPrimaryColor,
+                title: const Text("Bilet Satın Alındı"),
+                content: Text("${event.name} etkinliği için başarıyla bir bilet satın aldınız."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tamam"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _viewTicket(event);
+                    },
+                    child: const Text("Bileti Görüntüle"),
+                  ),
+                ],
+              );
+            },
+          );
+        } catch (e) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: kPrimaryColor,
+                title: const Text("Hata"),
+                content: const Text("Bilet satın alma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tamam"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+    }
+  }
+
+
+  void _viewTicket(Event event) async {
+    TicketService _ticketService = TicketService();
+    AppUser? currentUser = await _ticketService.getCurrentUser();
+    if (currentUser != null) {
+      bool hasTicket = await _ticketService.userHasTicket(currentUser, event);
+      if (hasTicket) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return TicketPageDialog(ticket: Ticket.fromEvent(event, currentUser.id, currentUser.name));
+          },
+        );
+      } else {
+        // Kullanıcının bu etkinlik için bir bileti yoksa uygun bir işlem yapılabilir.
+      }
+    }
+  }
+
+  void _buyTicket(Event event) async {
+    final TicketService _ticketService = TicketService(); // Değişiklik burada
+    AppUser? currentUser = await _ticketService.getCurrentUser();
+    if (currentUser != null) {
+      bool hasTicket = await _ticketService.userHasTicket(currentUser, event);
+      if (hasTicket) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return TicketPageDialog(ticket: Ticket.fromEvent(event, currentUser.id, currentUser.name));
+          },
+        );
+      } else {
+        try {
+          // TicketService kullanarak bilet al
+          await _ticketService.buyTicket(event);
+          // Başarılı satın alma durumunda onay iletişim kutusu göster veya başka bir işlem gerçekleştir
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: kPrimaryColor,
+                title: const Text("Bilet Satın Alındı"),
+                content: Text("${event.name} etkinliği için başarıyla bir bilet satın aldınız."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tamam"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _viewTicket(event);
+                    },
+                    child: const Text("Bileti Görüntüle"),
+                  ),
+                ],
+              );
+            },
+          );
+        } catch (e) {
+          // Hataları ele al, örneğin hata iletişim kutusu göster
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: kPrimaryColor,
+                title: const Text("Hata"),
+                content: const Text("Bilet satın alma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tamam"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+    }
+  }
+
 
 }

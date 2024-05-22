@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/widgets/ui_helper.dart';
 
-import '../constant/color.dart';
-import '../constant/text_style.dart';
+import '../utils/constants.dart';
+import '../utils/text_style.dart';
 import '../models/event_model.dart';
 import '../utils/datetime_utils.dart';
 
 class UpComingEventCard extends StatelessWidget {
   final Event event;
   final VoidCallback onTap;
-  const UpComingEventCard({super.key, required this.event, required this.onTap});
+  const UpComingEventCard({Key? key, required this.event, required this.onTap}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.8;
@@ -64,20 +65,29 @@ class UpComingEventCard extends StatelessWidget {
           ),
         ),
         UIHelper.horizontalSpace(16),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(event.name, style: titleStyle),
-            UIHelper.verticalSpace(4),
-            Row(
-              children: <Widget>[
-                Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor),
-                UIHelper.horizontalSpace(4),
-                Text(event.location.toUpperCase(), style: subtitleStyle),
-              ],
-            ),
-          ],
+        Expanded( // Eklendi: Row'un genişliğini genişletmek için Expanded widget eklendi
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(event.name, style: titleStyle),
+              UIHelper.verticalSpace(4),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor),
+                  UIHelper.horizontalSpace(4),
+                  Expanded( // Eklendi: Text widget'ını sarma ve genişletmek için Expanded widget eklendi
+                    child: Text(
+                      event.location.toUpperCase(),
+                      style: subtitleStyle,
+                      overflow: TextOverflow.ellipsis, // Eklendi: Taşma durumunda metni kırp
+                      maxLines: 1, // Eklendi: Sadece tek bir satır göster
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

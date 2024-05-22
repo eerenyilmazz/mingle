@@ -15,13 +15,14 @@ class TicketPageDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       title: Text(
         'Your Ticket Informations',
-        style: TextStyle(fontWeight: FontWeight.bold ,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
           fontSize: screenSize.width * 0.06,
         ),
       ),
       content: SizedBox(
         width: screenSize.width * 0.8,
-        height: screenSize.height * 0.20,
+        height: screenSize.height * 0.30,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,6 +42,10 @@ class TicketPageDialog extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
                 child: _textDescription("Event Location", ticket.eventLocation, screenSize),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
+                child: _textDescription("Event Price", '\$${ticket.eventPrice}', screenSize),
               ),
             ],
           ),

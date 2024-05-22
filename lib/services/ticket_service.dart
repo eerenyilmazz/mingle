@@ -1,21 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mingle/services/user_service.dart';
+
+import '../data/db/entity/app_user.dart';
+import '../data/provider/user_provider.dart';
 import '../models/event_model.dart';
 import '../models/ticket_model.dart';
-import '../models/user_model.dart' as CustomUser;
-import '../models/user_model.dart';
 
 class TicketService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final String _collectionName = 'tickets';
-  final UserService _userService = UserService();
+  final UserProvider _userProvider = UserProvider();
 
-  Future<bool> userHasTicket(User user, Event event) async {
+  Future<AppUser?> getCurrentUser() async {
+    return await _userProvider.user;
+  }
+
+  Future<bool> userHasTicket(AppUser user, Event event) async {
     try {
       QuerySnapshot ticketSnapshot = await _db
           .collection(_collectionName)
-          .where('userId', isEqualTo: user.uid)
+          .where('userId', isEqualTo: user.id)
           .where('eventId', isEqualTo: event.id)
           .get();
 
@@ -28,28 +32,19 @@ class TicketService {
     }
   }
 
-  Future<void> buyTicket(User user, Event event) async {
+  Future<void> buyTicket(Event event) async {
     try {
-      bool hasTicket = await userHasTicket(user, event);
-      if (hasTicket) {
-        if (kDebugMode) {
-          print('User already has a ticket for this event.');
-        }
-        return;
-      }
-
-      CustomUser.User? currentUser = await _userService.getCurrentUser();
+      AppUser? currentUser = await getCurrentUser();
       if (currentUser != null) {
-        Ticket ticket = Ticket(
-          userId: currentUser.uid,
-          userName: currentUser.fullName,
-          userEmail: currentUser.email,
-          eventId: event.id,
-          eventName: event.name,
-          eventDate: event.eventDate,
-          eventLocation: event.location,
-          eventPrice: event.price,
-        );
+        bool hasTicket = await userHasTicket(currentUser, event);
+        if (hasTicket) {
+          if (kDebugMode) {
+            print('User already has a ticket for this event.');
+          }
+          return;
+        }
+
+        Ticket ticket = Ticket.fromEvent(event, currentUser.id, currentUser.name);
 
         await _db.collection(_collectionName).add(ticket.toMap());
       }
@@ -58,5 +53,19 @@ class TicketService {
         print("Error buying ticket: $e");
       }
     }
+  }
+
+  Future<bool> hasTicketForEvent(Event event) async {
+    try {
+      AppUser? currentUser = await getCurrentUser();
+      if (currentUser != null) {
+        return await userHasTicket(currentUser, event);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error checking ticket for event: $e");
+      }
+    }
+    return false;
   }
 }

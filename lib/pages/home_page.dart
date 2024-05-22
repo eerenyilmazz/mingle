@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constant/text_style.dart';
+import '../utils/text_style.dart';
 import '../models/event_model.dart';
 import '../services/event_service.dart';
 import '../utils/app_utils.dart';
@@ -11,6 +11,8 @@ import 'event_detail_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+  static const String id = 'homepage_screen';
+
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
