@@ -2,17 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mingle/pages/ticket_page.dart';
+import 'package:mingle/ui/screens/ticket_page.dart';
+
 import 'package:mingle/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../data/db/entity/app_user.dart';
-import '../models/event_model.dart';
-import '../models/ticket_model.dart';
-import '../services/ticket_service.dart';
-import '../utils/datetime_utils.dart';
-import '../utils/text_style.dart';
+import '../../data/db/entity/app_user.dart';
+import '../../data/model/event_model.dart';
+import '../../data/model/ticket_model.dart';
+import '../../data/db/remote/ticket_service.dart';
 import '../widgets/ui_helper.dart';
+import '../../utils/datetime_utils.dart';
+import '../../utils/text_style.dart';
 
 class EventDetailPage extends StatefulWidget {
   final Event event;

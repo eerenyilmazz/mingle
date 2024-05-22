@@ -6,7 +6,6 @@ import '../../data/provider/user_provider.dart';
 import '../../utils/utils.dart';
 import '../widgets/portrait.dart';
 import '../widgets/rounded_button.dart';
-import '../widgets/rounded_outlined_button.dart';
 import 'chat_screen.dart';
 
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../utils/text_style.dart';
-import '../models/event_model.dart';
-import '../services/event_service.dart';
-import '../utils/app_utils.dart';
+import '../../data/db/remote/event_service.dart';
+import '../../data/model/event_model.dart';
+import '../../utils/app_utils.dart';
+import '../../utils/text_style.dart';
 import '../widgets/home_bg_color.dart';
 import '../widgets/nearby_event_card.dart';
 import '../widgets/ui_helper.dart';

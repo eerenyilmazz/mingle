@@ -55,12 +55,12 @@ class UserProvider extends ChangeNotifier {
         notifyListeners();
         return AuthResponse.success(user);
       } else if (uploadResponse is Error<String>) {
-        showSnackBar(errorScaffoldKey.currentContext!, uploadResponse.message); // Değişiklik burada
+        showSnackBar(errorScaffoldKey.currentContext!, uploadResponse.message);
         return AuthResponse.error(uploadResponse.message);
       }
     }
     if (response is AuthError<UserCredential>) {
-      showSnackBar(errorScaffoldKey.currentContext!, (response as AuthError).message); // Değişiklik burada
+      showSnackBar(errorScaffoldKey.currentContext!, (response as AuthError).message);
     }
     return response;
   }

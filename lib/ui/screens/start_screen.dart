@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/ui/screens/register_screen.dart';
-
 import 'package:mingle/ui/screens/login_screen.dart';
 import '../../utils/constants.dart';
 import '../widgets/app_image_with_text.dart';
 import '../widgets/rounded_button.dart';
-import '../widgets/rounded_outlined_button.dart';
 
 
 class StartScreen extends StatelessWidget {
@@ -29,7 +27,8 @@ class StartScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "Başlayalım! Mingle ile etkinliklere katılın, yeni insanlarla tanışın ve keyifli zaman geçirin.",
+                      "Join events with Mingle and meet brand new people! Don't wait any longer to "
+                          "dive into exciting moments and have a great time. Start expanding your social circle now!",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
@@ -43,7 +42,7 @@ class StartScreen extends StatelessWidget {
                       Navigator.pushNamed(context, RegisterScreen.id);
                     }),
                 const SizedBox(height: 20),
-                RoundedOutlinedButton(
+                RoundedButton(
                   text: 'LOGIN',
                   onPressed: () => Navigator.pushNamed(context, LoginScreen.id),
                 ),

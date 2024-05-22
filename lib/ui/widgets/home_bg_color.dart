@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
+import '../../utils/constants.dart';
 
 class HomeBackgroundColor extends AnimatedWidget {
   final Animation<double> opacity;

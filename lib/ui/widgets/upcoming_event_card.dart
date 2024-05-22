@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mingle/widgets/ui_helper.dart';
+import 'package:mingle/ui/widgets/ui_helper.dart';
 
-import '../utils/constants.dart';
-import '../utils/text_style.dart';
-import '../models/event_model.dart';
-import '../utils/datetime_utils.dart';
+import '../../data/model/event_model.dart';
+import '../../utils/constants.dart';
+import '../../utils/datetime_utils.dart';
+import '../../utils/text_style.dart';
+
 
 class UpComingEventCard extends StatelessWidget {
   final Event event;
@@ -76,12 +77,12 @@ class UpComingEventCard extends StatelessWidget {
                 children: <Widget>[
                   Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor),
                   UIHelper.horizontalSpace(4),
-                  Expanded( // Eklendi: Text widget'ını sarma ve genişletmek için Expanded widget eklendi
+                  Expanded(
                     child: Text(
                       event.location.toUpperCase(),
                       style: subtitleStyle,
-                      overflow: TextOverflow.ellipsis, // Eklendi: Taşma durumunda metni kırp
-                      maxLines: 1, // Eklendi: Sadece tek bir satır göster
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],

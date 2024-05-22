@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mingle/pages/home_page.dart';
 import 'package:mingle/ui/screens/top_navigation_screens/profile_screen.dart';
-
 import '../../data/model/top_navigation_item.dart';
+import 'home_page.dart';
 import 'top_navigation_screens/chats_screen.dart';
 import 'top_navigation_screens/match_screen.dart';
 

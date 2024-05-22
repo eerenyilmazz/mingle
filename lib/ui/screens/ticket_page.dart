@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/ticket_model.dart';
-import '../utils/datetime_utils.dart';
+import '../../data/model/ticket_model.dart';
+import '../../utils/datetime_utils.dart';
 
 class TicketPageDialog extends StatelessWidget {
   final Ticket ticket;

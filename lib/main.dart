@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mingle/pages/home_page.dart';
+import 'package:mingle/ui/screens/home_page.dart';
 import 'package:mingle/ui/screens/login_screen.dart';
 import 'package:mingle/ui/screens/chat_screen.dart';
 import 'package:mingle/ui/screens/matched_screen.dart';
