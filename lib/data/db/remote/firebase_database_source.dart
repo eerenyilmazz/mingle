@@ -93,15 +93,20 @@ class FirebaseDatabaseSource {
     return instance.collection('chats').doc(chatId).get();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getPersonsToMatchWith(
-      int limit, List<String> ignoreIds) {
-    print('Ignore Ids: $ignoreIds');
-    return instance
-        .collection('users')
-        .where('id', whereNotIn: ignoreIds)
-        .limit(limit)
-        .get();
+
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getPersonsToMatchWith(String eventId) async {
+    // Tickets koleksiyonundan belgeleri al
+    QuerySnapshot<Map<String, dynamic>> ticketsQuerySnapshot = await instance.collection('tickets').where('eventId', isEqualTo: eventId).get();
+
+    // Tickets belgelerindeki userId'leri al
+    List userIds = ticketsQuerySnapshot.docs.map((doc) => doc.data()['userId']).toList();
+
+    // Users koleksiyonundan userId'lerle eşleşen belgeleri getir
+    return instance.collection('users').where('id', whereIn: userIds).get();
   }
+
+
 
 
   Future<QuerySnapshot<Map<String, dynamic>>> getSwipes(String userId) {

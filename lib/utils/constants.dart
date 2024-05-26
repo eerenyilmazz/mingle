@@ -7,7 +7,7 @@ const kDefaultPadding = EdgeInsets.symmetric(
 
 const kPrimaryColor = Color(0xFFFFFFFF);
 const kSecondaryColor = Colors.black;
-const kAccentColor = Color(0xFF7C6FF2);
+const kAccentColor = Color(0xFFB22044);
 
 const kColorPrimaryVariant = Color(0xFF424242);
 
@@ -24,7 +24,7 @@ const kTextTheme = TextTheme(
 const kButtonTheme = ButtonThemeData(
   splashColor: Colors.transparent,
   padding: EdgeInsets.symmetric(vertical: 14),
-  buttonColor: Color(0xFF7C6FF2),
+  buttonColor: Color(0xFFB22044),
   textTheme: ButtonTextTheme.accent,
   highlightColor: Color.fromRGBO(0, 0, 0, .3),
   focusColor: Color.fromRGBO(0, 0, 0, .3),
@@ -44,7 +44,7 @@ const Map<int, Color> kThemeMaterialColor = {
 };
 
 
-const Color lime = Color.fromRGBO(240, 203, 148, 1);
-const Color orange = Color.fromRGBO(255, 158, 107, 1);
+const Color lime = Color(0xFFB22044);
+const Color orange = Color(0xFFB22044);
 const Color primaryLight = Color.fromRGBO(240, 234, 248, 1);
 const Color imgBG = Color.fromRGBO(230, 230, 254, 1);

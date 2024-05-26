@@ -68,6 +68,57 @@ class TicketService {
     }
     return false;
   }
+
+  Future<List<String>> getEventIdsWithUserTickets(String userId) async {
+    try {
+      QuerySnapshot ticketSnapshot = await _db
+          .collection(_collectionName)
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      Set<String> eventIdsWithTickets = ticketSnapshot.docs.map((doc) => doc['eventId'] as String).toSet();
+
+      return eventIdsWithTickets.toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error getting event IDs with user tickets: $e");
+      }
+      throw e;
+    }
+  }
+
+  Future<List<AppUser>> getUsersWithTicketsForEvents(List<String> eventIds) async {
+    try {
+      List<AppUser> usersWithTickets = [];
+
+      for (String eventId in eventIds) {
+        QuerySnapshot<Map<String, dynamic>> ticketSnapshot = await _db
+            .collection(_collectionName)
+            .where('eventId', isEqualTo: eventId)
+            .get();
+
+        Set<String> userIdsWithTickets = ticketSnapshot.docs.map((doc) => doc['userId'] as String).toSet();
+
+        // Her bir kullanıcı belgesini almak için döngü
+        for (String userId in userIdsWithTickets) {
+          // Kullanıcı belgesini veritabanından al
+          DocumentSnapshot<Map<String, dynamic>> userSnapshot = await _db.collection('users').doc(userId).get();
+          if (userSnapshot.exists) {
+            // Kullanıcı belgesini AppUser nesnesine dönüştür ve listeye ekle
+            usersWithTickets.add(AppUser.fromSnapshot(userSnapshot));
+          }
+        }
+      }
+
+      return usersWithTickets;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error getting users with tickets for events: $e");
+      }
+      throw e;
+    }
+  }
+
   Future<List<AppUser>> getUsersWithTickets() async {
     try {
       QuerySnapshot ticketSnapshot = await _db.collection(_collectionName).get();
@@ -90,29 +141,5 @@ class TicketService {
     }
   }
 
-  Future<List<AppUser>> getUsersWithEventTicket(Event event) async {
-    try {
-      QuerySnapshot ticketSnapshot = await _db
-          .collection(_collectionName)
-          .where('eventId', isEqualTo: event.id)
-          .get();
-
-      Set<String> userIdsWithEventTicket = ticketSnapshot.docs.map((doc) => doc['userId'] as String).toSet();
-
-      QuerySnapshot usersSnapshot = await _db.collection('users').get();
-
-      List<AppUser> usersWithEventTicket = usersSnapshot.docs
-          .map((doc) => AppUser.fromSnapshot(doc))
-          .where((user) => userIdsWithEventTicket.contains(user.id))
-          .toList();
-
-      return usersWithEventTicket;
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error getting users with event ticket: $e");
-      }
-      return [];
-    }
-  }
 
 }

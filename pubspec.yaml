@@ -48,6 +48,7 @@ dependencies:
   percent_indicator: ^4.2.3
   numberpicker: ^2.1.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

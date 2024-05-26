@@ -22,7 +22,7 @@ class ImagePortrait extends StatelessWidget {
       width: height * 0.65,
       height: MediaQuery.of(context).size.height / 3,
       decoration: BoxDecoration(
-        border: Border.all(width: 2, color: kAccentColor),
+        border: Border.all(width: 2, color: kPrimaryColor),
         borderRadius: const BorderRadius.all(Radius.circular(25.0)),
       ),
       child: ClipRRect(

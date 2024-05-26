@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 2)); // Splash screen için bir bekleme süresi
+    await Future.delayed(const Duration(seconds: 2));
 
     if (FirebaseAuth.instance.currentUser != null) {
       Navigator.of(context).pushNamedAndRemoveUntil(TopNavigationScreen.id, (route) => false);

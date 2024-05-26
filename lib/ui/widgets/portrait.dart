@@ -15,7 +15,7 @@ class Portrait extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
           border: Border.all(width: 2, color: kAccentColor),
-          borderRadius: BorderRadius.all(Radius.circular(25.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(25.0))),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(22.0),
         child: imageUrl.isNotEmpty

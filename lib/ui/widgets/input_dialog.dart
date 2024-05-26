@@ -31,7 +31,7 @@ class _InputDialogState extends State<InputDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: kPrimaryColor,
-      contentPadding: EdgeInsets.all(16.0),
+      contentPadding: const EdgeInsets.all(16.0),
       content: BorderedTextField(
         textCapitalization: TextCapitalization.sentences,
         labelText: widget.labelText,
@@ -50,10 +50,10 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'CANCEL',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor), // Corrected the text color
           ),
         ),
-        TextButton( // Changed from FlatButton to TextButton
+        TextButton(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kAccentColor),
           ),
@@ -63,9 +63,10 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'SAVE',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor), // Corrected the text color
           ),
         ),
+
       ],
     );
   }
