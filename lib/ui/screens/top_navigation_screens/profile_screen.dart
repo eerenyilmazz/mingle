@@ -106,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 }
                               },
                               iconData: Icons.edit,
+                              buttonColor: kAccentColor,
                               iconSize: width / 20,
                             ),
                           ),
@@ -186,6 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               iconData: Icons.edit,
               iconSize: width / 20,
+              buttonColor: kAccentColor,
               paddingReduce: 4,
             ),
           ],
@@ -193,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(height: width * 0.03),
         Text(
           user.bio.isNotEmpty ? user.bio : "No bio available.",
-          style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor)
         ),
       ],
     );
@@ -217,6 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
               },
               iconData: Icons.padding_outlined,
+              buttonColor: kAccentColor,
               iconSize: width / 20,
               paddingReduce: 4,
             ),
@@ -227,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // Placeholder for the tickets list or details
         Text(
           "You have no tickets at the moment.",
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor)
         ),
       ],
     );

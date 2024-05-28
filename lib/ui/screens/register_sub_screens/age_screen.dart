@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import '../../../utils/constants.dart';
+
 class AgeScreen extends StatefulWidget {
   final Function(num) onChanged;
 
@@ -26,11 +28,11 @@ class _AgeScreenState extends State<AgeScreen> {
             children: [
               Text(
                 'My',
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
               ),
               Text(
                 'age is',
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
               ),
             ],
           ),
@@ -39,9 +41,10 @@ class _AgeScreenState extends State<AgeScreen> {
           child: Center(
             child: Container(
               child: NumberPicker(
-                itemWidth: double.infinity,
+                  textStyle: const TextStyle(color: kAccentColor), // Change text color here
+                  itemWidth: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: kColorPrimaryVariant, width: 2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   value: age,

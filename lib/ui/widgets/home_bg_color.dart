@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import '../../utils/constants.dart';
 
 class HomeBackgroundColor extends AnimatedWidget {
@@ -19,9 +16,9 @@ class HomeBackgroundColor extends AnimatedWidget {
             child: Container(
               height: (MediaQuery.of(context).size.height / 2.5) * progress.value,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(lerpDouble(0.5, 1.0, progress.value) ?? 1.0),
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
+              decoration: const BoxDecoration(
+                color: kAccentColor,
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),
               ),
             ),
           ),
@@ -31,7 +28,7 @@ class HomeBackgroundColor extends AnimatedWidget {
             child: Container(
               width: 150,
               height: 150,
-              decoration: const ShapeDecoration(shape: CircleBorder(), color: lime),
+              decoration: const ShapeDecoration(shape: CircleBorder(), color: kAccentColor),
             ),
           ),
           Positioned(
@@ -40,7 +37,7 @@ class HomeBackgroundColor extends AnimatedWidget {
             child: Container(
               width: 150 * (1 - progress.value) + 150,
               height: 150 * (1 - progress.value) + 150,
-              decoration: const ShapeDecoration(shape: CircleBorder(), color: orange),
+              decoration: const ShapeDecoration(shape: CircleBorder(), color: kAccentColor),
             ),
           ),
         ],

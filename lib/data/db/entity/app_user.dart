@@ -16,11 +16,13 @@ class AppUser {
   });
 
   AppUser.fromSnapshot(DocumentSnapshot snapshot)
-      : id = snapshot.get('id'),
-        name = snapshot.get('name'),
-        age = snapshot.get('age'),
-        profilePhotoPath = snapshot.get('profile_photo_path'),
-        bio = snapshot.get('bio') ?? '';
+      : id = snapshot.exists ? snapshot['id'] : '',
+        name = snapshot.exists ? snapshot['name'] : '',
+        age = snapshot.exists ? snapshot['age'] : 0,
+        profilePhotoPath = snapshot.exists ? snapshot['profile_photo_path'] : '',
+        bio = snapshot.exists ? snapshot['bio'] : '';
+
+
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

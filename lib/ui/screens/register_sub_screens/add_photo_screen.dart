@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mingle/utils/constants.dart';
 
 import '../../widgets/image_portrait.dart';
 import '../../widgets/rounded_icon_button.dart';
@@ -37,7 +38,7 @@ class _AddPhotoScreenState extends State<AddPhotoScreen> {
         children: [
           Text(
             'Add photo',
-            style: Theme.of(context).textTheme.displaySmall,
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(color: kAccentColor),
           ),
           Expanded(
             child: Column(
@@ -62,6 +63,7 @@ class _AddPhotoScreenState extends State<AddPhotoScreen> {
                               onPressed: pickImageFromGallery,
                               iconData: Icons.add,
                               iconSize: 20,
+                              buttonColor: kAccentColor,
                             ),
                           ),
                         ),

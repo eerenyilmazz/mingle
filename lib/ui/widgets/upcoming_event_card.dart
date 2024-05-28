@@ -34,7 +34,7 @@ class UpComingEventCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          color: imgBG,
+          color: kPrimaryColor,
           width: double.infinity,
           child: Hero(
             tag: 'upcoming_event_${event.id}',
@@ -53,7 +53,7 @@ class UpComingEventCard extends StatelessWidget {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            color: primaryLight,
+            color: kPrimaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),

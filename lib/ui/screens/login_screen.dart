@@ -10,10 +10,9 @@ import '../widgets/bordered_text_field.dart';
 import '../widgets/custom_modal_progress_hud.dart';
 import '../widgets/rounded_button.dart';
 
+
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
-
-  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -41,12 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
         .loginUser(_inputEmail, _inputPassword, _scaffoldKey)
         .then((response) {
       if (response is Success<UserCredential>) {
-        Navigator.of(context).pushNamedAndRemoveUntil(TopNavigationScreen.id, (route) => false);
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(TopNavigationScreen.id, (route) => false);
       }
+    });
+    setState(() {
+      _isLoading = false;
     });
   }
 
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),
-          offset: Offset(0,0),
+          offset: const Offset(0,0),
           child: Padding(
             padding: kDefaultPadding,
             child: Container(

@@ -29,7 +29,7 @@ class NearbyEventCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        color: imgBG,
+        color: kPrimaryColor,
         width: 80,
         height: 100,
         child: Hero(

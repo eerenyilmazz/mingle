@@ -127,7 +127,7 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: widget.person.name,
-                                      style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: kPrimaryColor),
+                                      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: kPrimaryColor),
                                     ),
                                     TextSpan(text: '  ${widget.person.age}', style: const TextStyle(fontSize: 20, color:kPrimaryColor)),
                                   ],

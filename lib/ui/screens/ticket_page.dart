@@ -11,61 +11,53 @@ class TicketPageDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(
-        'Your Ticket Informations',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: screenSize.width * 0.06,
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
         ),
-      ),
-      content: SizedBox(
-        width: screenSize.width * 0.8,
-        height: screenSize.height * 0.30,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
-                child: _textDescription("Ticket Id", ticket.eventId, screenSize),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Your Ticket Information',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: screenSize.width * 0.06,
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
-                child: _textDescription("Event Name", ticket.eventName, screenSize),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
-                child: _textDescription("Event Date", DateTimeUtils.getFullDate(ticket.eventDate), screenSize),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
-                child: _textDescription("Event Location", ticket.eventLocation, screenSize),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenSize.height * 0.01),
-                child: _textDescription("Event Price", '\$${ticket.eventPrice}', screenSize),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: screenSize.height * 0.02),
+            _ticketInfo("Ticket Id", ticket.eventId, screenSize),
+            _ticketInfo("Event Name", ticket.eventName, screenSize),
+            _ticketInfo("Event Date", DateTimeUtils.getFullDate(ticket.eventDate), screenSize),
+            _ticketInfo("Event Location", ticket.eventLocation, screenSize),
+            _ticketInfo("Event Price", '\$${ticket.eventPrice}', screenSize),
+          ],
         ),
       ),
     );
   }
 
-  Widget _textDescription(String title, dynamic value, Size screenSize) => Column(
+  Widget _ticketInfo(String title, dynamic value, Size screenSize) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
         title,
         style: TextStyle(fontSize: screenSize.width * 0.04, color: Colors.grey),
       ),
-      SizedBox(height: screenSize.height * 0.002),
+      SizedBox(height: screenSize.height * 0.005),
       Text(
         value.toString(),
         style: TextStyle(fontWeight: FontWeight.w600, fontSize: screenSize.width * 0.045),
       ),
+      SizedBox(height: screenSize.height * 0.015),
+      Divider(color: Colors.grey[300], thickness: 1.0),
+      SizedBox(height: screenSize.height * 0.015),
     ],
   );
 }

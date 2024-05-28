@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mingle/utils/constants.dart';
 
 import '../../widgets/bordered_text_field.dart';
 
@@ -17,11 +18,11 @@ class NameScreen extends StatelessWidget {
             children: [
               Text(
                 'My first',
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
               ),
               Text(
                 'name is',
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
               ),
             ],
           ),

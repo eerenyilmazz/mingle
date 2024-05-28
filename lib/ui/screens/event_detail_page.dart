@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mingle/ui/screens/ticket_page.dart';
+import 'package:mingle/ui/widgets/rounded_button.dart';
 
 import 'package:mingle/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -191,7 +192,7 @@ class _EventDetailPageState extends State<EventDetailPage>
               shape: border,
               elevation: 0,
               margin: const EdgeInsets.all(0),
-              color: hasTitle ? Theme.of(context).primaryColor : Colors.white,
+              color: hasTitle ? kPrimaryColor : kSecondaryColor,
               child: InkWell(
                 customBorder: border,
                 onTap: () {
@@ -204,17 +205,17 @@ class _EventDetailPageState extends State<EventDetailPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.arrow_back,
-                    color: hasTitle ? Colors.white : Colors.black,
+                    color: hasTitle ? kSecondaryColor : kPrimaryColor,
                   ),
                 ),
               ),
             ),
             if (hasTitle)
-              Text(event.name, style: titleStyle.copyWith(color: Colors.white)),
+              Text(event.name, style: titleStyle.copyWith(color: kAccentColor)),
             Card(
               shape: const CircleBorder(),
               elevation: 0,
-              color: Theme.of(context).primaryColor,
+              color: kAccentColor,
               child: InkWell(
                 customBorder: const CircleBorder(),
                 onTap: () => setState(() => isFavorite = !isFavorite),
@@ -222,7 +223,7 @@ class _EventDetailPageState extends State<EventDetailPage>
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: Colors.white,
+                    color: kPrimaryColor,
                   ),
                 ),
               ),
@@ -233,27 +234,29 @@ class _EventDetailPageState extends State<EventDetailPage>
     );
   }
 
+
   Widget buildEventTitle() {
     return Text(
       event.name,
-      style: headerStyle.copyWith(fontSize: 32),
+      style: headerStyle.copyWith(fontSize: 32, color: kSecondaryColor),
     );
   }
+
 
   Widget buildEventDate() {
     return Row(
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            color: kPrimaryColor,
+            color: kAccentColor,
             borderRadius: BorderRadius.circular(8),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
-              Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
+              Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle.copyWith(color: kPrimaryColor)),
+              Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle.copyWith(color: kPrimaryColor)),
             ],
           ),
         ),
@@ -262,11 +265,11 @@ class _EventDetailPageState extends State<EventDetailPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(DateTimeUtils.getDayOfWeek(event.eventDate), style: titleStyle),
+            Text(DateTimeUtils.getDayOfWeek(event.eventDate), style: titleStyle.copyWith(color: kSecondaryColor)),
             UIHelper.verticalSpace(4),
             Text(
               DateFormat('hh:mm a').format(event.eventDate.toLocal()),
-              style: subtitleStyle,
+              style: subtitleStyle.copyWith(color: kSecondaryColor),
             ),
           ],
         ),
@@ -274,32 +277,35 @@ class _EventDetailPageState extends State<EventDetailPage>
     );
   }
 
+
   Widget buildAboutEvent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text("About", style: headerStyle),
+         Text("About", style: headerStyle.copyWith(color: kSecondaryColor)),
         UIHelper.verticalSpace(),
-        Text(event.description, style: subtitleStyle),
+        Text(event.description, style: subtitleStyle.copyWith(color: kSecondaryColor)),
         UIHelper.verticalSpace(8),
       ],
     );
   }
+
+
 
   Widget buildOrganizeInfo() {
     return Row(
       children: <Widget>[
         CircleAvatar(
           backgroundColor: kAccentColor,
-          child: Text(event.organizer[0]),
+          child: Text(event.organizer[0], style: const TextStyle(color: kPrimaryColor)),
         ),
         UIHelper.horizontalSpace(16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(event.organizer, style: titleStyle),
+            Text(event.organizer, style: titleStyle.copyWith(color: kSecondaryColor)),
             UIHelper.verticalSpace(4),
-            const Text("Organizer", style: subtitleStyle),
+             Text("Organizer", style: subtitleStyle.copyWith(color: kSecondaryColor)),
           ],
         ),
       ],
@@ -310,9 +316,9 @@ class _EventDetailPageState extends State<EventDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
+         Text(
           'Location',
-          style: headerStyle,
+          style: headerStyle.copyWith(color: kSecondaryColor),
         ),
         UIHelper.verticalSpace(8),
         GestureDetector(
@@ -321,14 +327,14 @@ class _EventDetailPageState extends State<EventDetailPage>
           },
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.location_on,
-                color: Theme.of(context).primaryColor,
+                color: kAccentColor,
               ),
               const SizedBox(width: 8),
               Text(
                 event.location,
-                style: subtitleStyle.copyWith(color: Theme.of(context).primaryColor),
+                style: subtitleStyle.copyWith(color: kAccentColor),
               ),
             ],
           ),
@@ -336,6 +342,8 @@ class _EventDetailPageState extends State<EventDetailPage>
       ],
     );
   }
+
+
 
   void _launchMaps() async {
     String location = event.location.replaceAll(' ', '+');
@@ -359,7 +367,7 @@ class _EventDetailPageState extends State<EventDetailPage>
           final String buttonLabel = snapshot.data!;
           return Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.white,
+            color: kPrimaryColor,
             width: MediaQuery.of(context).size.width,
             child: SafeArea(
               top: false,
@@ -380,7 +388,7 @@ class _EventDetailPageState extends State<EventDetailPage>
                             ),
                             const TextSpan(
                               text: "/per person",
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: kSecondaryColor),
                             ),
                           ],
                         ),
@@ -391,7 +399,7 @@ class _EventDetailPageState extends State<EventDetailPage>
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: kAccentColor,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     ),
                     onPressed: () {
@@ -399,7 +407,7 @@ class _EventDetailPageState extends State<EventDetailPage>
                     },
                     child: Text(
                       buttonLabel,
-                      style: titleStyle.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+                      style: titleStyle.copyWith(color: kPrimaryColor, fontWeight: FontWeight.normal),
                     ),
                   ),
                 ],
@@ -441,18 +449,18 @@ class _EventDetailPageState extends State<EventDetailPage>
                 title: const Text("Bilet Satın Alındı"),
                 content: Text("${event.name} etkinliği için başarıyla bir bilet satın aldınız."),
                 actions: [
-                  TextButton(
+                  RoundedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Tamam"),
+                    text: 'Tamam',
                   ),
-                  TextButton(
+                  RoundedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       _viewTicket(event);
                     },
-                    child: const Text("Bileti Görüntüle"),
+                    text: 'Bileti Görüntüle',
                   ),
                 ],
               );

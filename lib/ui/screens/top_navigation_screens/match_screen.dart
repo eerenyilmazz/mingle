@@ -95,6 +95,7 @@ class _MatchScreenState extends State<MatchScreen> {
         Message message = Message(DateTime.now().millisecondsSinceEpoch, false, myUser.id, "Hi, let's chat!");
         _databaseSource.addChat(Chat(chatId, message));
 
+
         Navigator.pushNamed(context, MatchedScreen.id, arguments: {
           "my_user_id": myUser.id,
           "my_profile_photo_path": myUser.profilePhotoPath,
@@ -203,7 +204,7 @@ class _MatchScreenState extends State<MatchScreen> {
                             if (snapshot.connectionState == ConnectionState.done && snapshot.data == null) {
                               return Center(
                                 child: Container(
-                                  child: Text('No users', style: Theme.of(context).textTheme.headline4),
+                                  child: Text('No users', style: Theme.of(context).textTheme.headline4?.copyWith(color: kAccentColor)),
                                 ),
                               );
                             }
@@ -241,7 +242,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           personSwiped(userSnapshot.data!, snapshot.data!, false);
                                         },
                                         iconData: Icons.clear,
-                                        buttonColor: kColorPrimaryVariant,
+                                        buttonColor: kAccentColor,
                                         iconSize: 30,
                                       ),
                                       RoundedIconButton(
@@ -249,6 +250,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                           personSwiped(userSnapshot.data!, snapshot.data!, true);
                                         },
                                         iconData: Icons.favorite,
+                                        buttonColor: kAccentColor,
                                         iconSize: 30,
                                       ),
                                     ],

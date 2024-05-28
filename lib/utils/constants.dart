@@ -44,7 +44,3 @@ const Map<int, Color> kThemeMaterialColor = {
 };
 
 
-const Color lime = Color(0xFFB22044);
-const Color orange = Color(0xFFB22044);
-const Color primaryLight = Color.fromRGBO(240, 234, 248, 1);
-const Color imgBG = Color.fromRGBO(230, 230, 254, 1);

@@ -26,13 +26,14 @@ class UserProvider extends ChangeNotifier {
     if (response is AuthSuccess<UserCredential>) {
       String id = response.data.user!.uid;
       await SharedPreferencesUtil.setUserId(id);
-      _user = AppUser.fromSnapshot(await _databaseSource.getUser(id));
+      _user = await _getUser(); // _getUser fonksiyonunu çağırarak _user değişkenini güncelle
       notifyListeners();
     } else if (response is AuthError<UserCredential>) {
       showSnackBar(errorScaffoldKey as BuildContext, (response as AuthError).message);
     }
     return response;
   }
+
 
 
   Future<AuthResponse> registerUser(UserRegistration userRegistration, GlobalKey<ScaffoldState> errorScaffoldKey) async {

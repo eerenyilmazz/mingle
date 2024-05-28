@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mingle/ui/screens/home_page.dart';
-import 'package:mingle/ui/screens/login_screen.dart';
 import 'package:mingle/ui/screens/chat_screen.dart';
+import 'package:mingle/ui/screens/login_screen.dart';
 import 'package:mingle/ui/screens/matched_screen.dart';
 import 'package:mingle/ui/screens/register_screen.dart';
 import 'package:mingle/ui/screens/splash_screen.dart';
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+        const SystemUiOverlayStyle(systemNavigationBarColor: kAccentColor));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
@@ -34,11 +33,12 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: const MaterialColor(kBackgroundColorInt, kThemeMaterialColor),
           ).copyWith(
-            secondary: kSecondaryColor, // Setting accent color
-            primary: kAccentColor,      // Setting button color
+            secondary: kPrimaryColor,
+            onSecondary: kSecondaryColor,
+            onPrimary: kAccentColor,
           ),
           scaffoldBackgroundColor: kPrimaryColor,
-          hintColor: kSecondaryColor,
+          hintColor: kColorPrimaryVariant,
           textTheme: const TextTheme(
             headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
             headline2: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
@@ -49,25 +49,21 @@ class MyApp extends StatelessWidget {
             button: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ).apply(
             bodyColor: kSecondaryColor,
-            displayColor: kSecondaryColor,
+            displayColor: kPrimaryColor,
           ),
-          buttonTheme: const ButtonThemeData(
-            splashColor: Colors.transparent,
-            padding: EdgeInsets.symmetric(vertical: 14),
-            buttonColor: kAccentColor,
-            textTheme: ButtonTextTheme.accent,
-            highlightColor: Color.fromRGBO(0, 0, 0, .3),
-            focusColor: Color.fromRGBO(0, 0, 0, .3),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: kPrimaryColor, backgroundColor: kAccentColor,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
           ),
         ),
-
         initialRoute: SplashScreen.id,
         routes: {
-          SplashScreen.id: (context) => SplashScreen(),
-          MyHomePage.id: (context) => MyHomePage(),
-          StartScreen.id: (context) => StartScreen(),
+          SplashScreen.id: (context) => const SplashScreen(),
+          StartScreen.id: (context) => const StartScreen(),
           LoginScreen.id: (context) => LoginScreen(),
-          RegisterScreen.id: (context) => RegisterScreen(),
+          RegisterScreen.id: (context) => const RegisterScreen(),
           TopNavigationScreen.id: (context) => TopNavigationScreen(),
           MatchedScreen.id: (context) => MatchedScreen(
             myProfilePhotoPath: (ModalRoute.of(context)?.settings.arguments

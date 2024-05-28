@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mingle/utils/constants.dart';
 import '../../data/db/remote/event_service.dart';
 import '../../data/model/event_model.dart';
 import '../../utils/app_utils.dart';
@@ -110,15 +111,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget buildSearchAppBar() {
     const inputBorder = UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.white),
+      borderSide: BorderSide(color: kPrimaryColor),
     );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextField(
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(color: kPrimaryColor),
         decoration: const InputDecoration(
           hintText: "Search...",
-          hintStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
+          hintStyle: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 24),
           border: inputBorder,
           enabledBorder: inputBorder,
           focusedBorder: inputBorder,
@@ -141,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: <Widget>[
           Text(
             "Upcoming Events",
-            style: headerStyle.copyWith(color: Colors.white),
+            style: headerStyle.copyWith(color: kPrimaryColor),
           ),
           UIHelper.verticalSpace(16),
           SizedBox(
@@ -166,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        color: Colors.white,
+        color: kPrimaryColor,
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
