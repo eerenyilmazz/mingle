@@ -227,7 +227,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
         SizedBox(height: width * 0.03),
-        // Placeholder for the tickets list or details
         Text(
           "You have no tickets at the moment.",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor)

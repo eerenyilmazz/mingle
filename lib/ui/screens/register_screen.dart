@@ -46,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     await _userProvider.registerUser(_userRegistration, _scaffoldKey).then((response) {
       if (response is Success) {
+        // Navigate to TopNavigationScreen and clear the stack
         Navigator.of(context).pushNamedAndRemoveUntil(TopNavigationScreen.id, (route) => false);
       } else {
         setState(() {

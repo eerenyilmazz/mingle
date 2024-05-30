@@ -22,24 +22,27 @@ class UserProvider extends ChangeNotifier {
   Future<AppUser?> get user => _getUser();
 
   Future<AuthResponse> loginUser(String email, String password, GlobalKey<ScaffoldState> errorScaffoldKey) async {
+    print('Kullanıcı giriş işlemi başlatılıyor...');
     AuthResponse<UserCredential> response = await _authSource.signIn(email, password);
     if (response is AuthSuccess<UserCredential>) {
       String id = response.data.user!.uid;
+      print('Giriş başarılı, kullanıcı ID: $id');
       await SharedPreferencesUtil.setUserId(id);
-      _user = await _getUser(); // _getUser fonksiyonunu çağırarak _user değişkenini güncelle
+      _user = await _getUser();
       notifyListeners();
     } else if (response is AuthError<UserCredential>) {
-      showSnackBar(errorScaffoldKey as BuildContext, (response as AuthError).message);
+      print('Giriş başarısız: ${response.message}');
+      showSnackBar(errorScaffoldKey.currentContext!, response.message);
     }
     return response;
   }
 
-
-
   Future<AuthResponse> registerUser(UserRegistration userRegistration, GlobalKey<ScaffoldState> errorScaffoldKey) async {
+    print('Kullanıcı kayıt işlemi başlatılıyor...');
     AuthResponse<UserCredential> response = await _authSource.register(userRegistration.email, userRegistration.password);
     if (response is AuthSuccess<UserCredential>) {
       String id = response.data.user!.uid;
+      print('Kayıt başarılı, kullanıcı ID: $id');
       CustomResponse<String> uploadResponse = await _storageSource.uploadUserProfilePhoto(userRegistration.localProfilePhotoPath, id);
 
       if (uploadResponse is Success<String>) {
@@ -54,29 +57,30 @@ class UserProvider extends ChangeNotifier {
         await SharedPreferencesUtil.setUserId(id);
         _user = user;
         notifyListeners();
+        print('Kayıt ve profil fotoğrafı yükleme başarılı.');
         return AuthResponse.success(user);
       } else if (uploadResponse is Error<String>) {
+        print('Profil fotoğrafı yükleme başarısız: ${uploadResponse.message}');
         showSnackBar(errorScaffoldKey.currentContext!, uploadResponse.message);
         return AuthResponse.error(uploadResponse.message);
       }
     }
     if (response is AuthError<UserCredential>) {
-      showSnackBar(errorScaffoldKey.currentContext!, (response as AuthError).message);
+      print('Kayıt başarısız: ${response.message}');
+      showSnackBar(errorScaffoldKey.currentContext!, response.message);
     }
     return response;
   }
 
-
   Future<AppUser?> _getUser() async {
     if (_user != null) return _user;
     String? id = await SharedPreferencesUtil.getUserId();
-    print('Retrieved user ID from shared preferences: $id');
+    print('SharedPreferences\'den kullanıcı ID alındı: $id');
     if (id != null && id.isNotEmpty) {
       _user = AppUser.fromSnapshot(await _databaseSource.getUser(id));
     }
     return _user;
   }
-
 
   void updateUserProfilePhoto(String localFilePath, GlobalKey<ScaffoldState> errorScaffoldKey) async {
     if (_user == null) return;
@@ -88,7 +92,7 @@ class UserProvider extends ChangeNotifier {
       _user!.profilePhotoPath = response.value;
       _databaseSource.updateUser(_user!);
     } else if (response is Error<String>) {
-      showSnackBar(errorScaffoldKey as BuildContext, response.message);
+      showSnackBar(errorScaffoldKey.currentContext!, response.message);
     }
     notifyListeners();
   }
@@ -107,6 +111,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<List<ChatWithUser>> getChatsWithUser(String userId) async {
+    print('Kullanıcı ID\'si ile sohbetler alınıyor: $userId');
     var matches = await _databaseSource.getMatches(userId);
     List<ChatWithUser> chatWithUserList = [];
 
@@ -118,6 +123,7 @@ class UserProvider extends ChangeNotifier {
       ChatWithUser chatWithUser = ChatWithUser(chat, matchedUser);
       chatWithUserList.add(chatWithUser);
     }
+    print('Sohbetler başarıyla alındı.');
     return chatWithUserList;
   }
 }

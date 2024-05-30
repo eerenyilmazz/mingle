@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mingle/utils/constants.dart';
 
 import '../../data/model/chat_with_user.dart';
 import '../../data/model/chats_observer.dart';
@@ -51,7 +52,7 @@ class _ChatsListState extends State<ChatsList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) =>
-          const Divider(color: Colors.grey),
+          const Divider(color: kColorPrimaryVariant),
       itemCount: widget.chatWithUserList.length,
       itemBuilder: (BuildContext _, int index) => ChatListTile(
         chatWithUser: widget.chatWithUserList[index],

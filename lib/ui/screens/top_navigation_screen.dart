@@ -28,7 +28,7 @@ class TopNavigationScreen extends StatelessWidget {
 
     ),
     TopNavigationItem(
-      screen: MatchScreen(),
+      screen: const MatchScreen(),
       iconData: Icons.favorite,
       color: kAccentColor,
     ),

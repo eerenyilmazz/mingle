@@ -422,9 +422,8 @@ class _EventDetailPageState extends State<EventDetailPage>
 
   Future<String> _getButtonLabel(Event event) async {
     final bool hasTicket = await _ticketService.hasTicketForEvent(event);
-    return hasTicket ? "Bileti Görüntüle" : "Bilet Al";
+    return hasTicket ? "View Ticket" : "Get a Ticket";
   }
-
 
   void _ticketAction(Event event) async {
     final TicketService ticketService = TicketService();
@@ -441,6 +440,7 @@ class _EventDetailPageState extends State<EventDetailPage>
       } else {
         try {
           await ticketService.buyTicket(event);
+          setState(() {}); // Trigger UI rebuild
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -455,13 +455,6 @@ class _EventDetailPageState extends State<EventDetailPage>
                     },
                     text: 'Tamam',
                   ),
-                  RoundedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _viewTicket(event);
-                    },
-                    text: 'Bileti Görüntüle',
-                  ),
                 ],
               );
             },
@@ -489,92 +482,4 @@ class _EventDetailPageState extends State<EventDetailPage>
       }
     }
   }
-
-
-  void _viewTicket(Event event) async {
-    TicketService _ticketService = TicketService();
-    AppUser? currentUser = await _ticketService.getCurrentUser();
-    if (currentUser != null) {
-      bool hasTicket = await _ticketService.userHasTicket(currentUser, event);
-      if (hasTicket) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return TicketPageDialog(ticket: Ticket.fromEvent(event, currentUser.id, currentUser.name));
-          },
-        );
-      } else {
-        // Kullanıcının bu etkinlik için bir bileti yoksa uygun bir işlem yapılabilir.
-      }
-    }
-  }
-
-  void _buyTicket(Event event) async {
-    final TicketService _ticketService = TicketService(); // Değişiklik burada
-    AppUser? currentUser = await _ticketService.getCurrentUser();
-    if (currentUser != null) {
-      bool hasTicket = await _ticketService.userHasTicket(currentUser, event);
-      if (hasTicket) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return TicketPageDialog(ticket: Ticket.fromEvent(event, currentUser.id, currentUser.name));
-          },
-        );
-      } else {
-        try {
-          // TicketService kullanarak bilet al
-          await _ticketService.buyTicket(event);
-          // Başarılı satın alma durumunda onay iletişim kutusu göster veya başka bir işlem gerçekleştir
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: kPrimaryColor,
-                title: const Text("Bilet Satın Alındı"),
-                content: Text("${event.name} etkinliği için başarıyla bir bilet satın aldınız."),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Tamam"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _viewTicket(event);
-                    },
-                    child: const Text("Bileti Görüntüle"),
-                  ),
-                ],
-              );
-            },
-          );
-        } catch (e) {
-          // Hataları ele al, örneğin hata iletişim kutusu göster
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: kPrimaryColor,
-                title: const Text("Hata"),
-                content: const Text("Bilet satın alma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Tamam"),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      }
-    }
-  }
-
-
 }
