@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'event_model.dart';
+import 'event.dart';
 
 class Ticket {
   String userId;
@@ -33,7 +33,7 @@ class Ticket {
     );
   }
 
-  factory Ticket.fromFirestore(DocumentSnapshot doc) {
+  factory Ticket.fromSnapshot(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
     return Ticket(
       userId: data['userId'],

@@ -41,7 +41,7 @@ class _AgeScreenState extends State<AgeScreen> {
           child: Center(
             child: Container(
               child: NumberPicker(
-                  textStyle: const TextStyle(color: kAccentColor), // Change text color here
+                  textStyle: const TextStyle(color: kSecondaryColor),
                   itemWidth: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(color: kColorPrimaryVariant, width: 2),

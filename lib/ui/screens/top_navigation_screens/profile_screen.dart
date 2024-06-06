@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../../../data/db/entity/app_user.dart';
-import '../../../data/model/event_model.dart';
+import '../../../data/db/entity/ticket.dart';
+import '../../../data/db/remote/ticket_service.dart';
 import '../../../data/provider/user_provider.dart';
 import '../../../utils/constants.dart';
 import '../../widgets/custom_modal_progress_hud.dart';
@@ -11,6 +11,7 @@ import '../../widgets/input_dialog.dart';
 import '../../widgets/rounded_button.dart';
 import '../../widgets/rounded_icon_button.dart';
 import '../start_screen.dart';
+import '../ticket_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,8 +22,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  late Event event;
-
 
   void logoutPressed(UserProvider userProvider, BuildContext context) async {
     userProvider.logoutUser();
@@ -40,7 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: CustomModalProgressHUD(
         inAsyncCall: context.watch<UserProvider>().isLoading,
         key: UniqueKey(),
-        offset: const Offset(0,0),
         child: FutureBuilder<AppUser?>(
           future: context.watch<UserProvider>().user,
           builder: (context, userSnapshot) {
@@ -73,28 +71,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: kPrimaryColor, // Border color set to kPrimaryColor
-                                width: 4.0, // Adjust the border width as desired
+                                color: kPrimaryColor,
+                                width: 4.0,
                               ),
                             ),
                             child: CircleAvatar(
                               backgroundImage: NetworkImage(user.profilePhotoPath),
-                              radius: MediaQuery.of(context).size.width / 6, // Using MediaQuery to get screen width
-                              backgroundColor: Colors.transparent, // Transparent background for the CircleAvatar
+                              radius: MediaQuery.of(context).size.width / 6,
+                              backgroundColor: Colors.transparent,
                               child: Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    fit: BoxFit.cover, // Cover fit for the image inside the circle
+                                    fit: BoxFit.cover,
                                     image: NetworkImage(user.profilePhotoPath),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
-
-
                           Positioned(
                             right: 0.0,
                             bottom: 0.0,
@@ -117,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         '${user.name}, ${user.age}',
                         style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                           color: kPrimaryColor,
-                          fontWeight: FontWeight.bold, // Add this line to make the text bold
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
 
@@ -130,15 +125,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ListView(
                       children: [
                         SizedBox(height: height * 0.02),
-                        const Divider(color: kAccentColor), // Divider with kAccentColor
+                        const Divider(color: kAccentColor),
                         SizedBox(height: height * 0.02),
                         getBioSection(user, context.watch<UserProvider>(), width),
                         SizedBox(height: height * 0.02),
-                        const Divider(color: kAccentColor), // Divider with kAccentColor
+                        const Divider(color: kAccentColor),
                         SizedBox(height: height * 0.02),
-                        getTicketsSection(context, width),
+                        getTicketsSection(context, width, user.id),
                         SizedBox(height: height * 0.02),
-                        const Divider(color: kAccentColor), // Divider with kAccentColor
+                        const Divider(color: kAccentColor),
                         SizedBox(height: height * 0.02),
                         RoundedButton(
                           text: 'LOGOUT',
@@ -201,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget getTicketsSection(BuildContext context, double width) {
+  Widget getTicketsSection(BuildContext context, double width, String userId) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -212,27 +207,106 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Icon(Icons.event, size: width / 15, color: kAccentColor),
                 SizedBox(width: width * 0.02),
-                Text('My Tickets', style: Theme.of(context).textTheme.titleLarge),
+                Text('My Tickets', style: Theme.of(context).textTheme.headline6),
               ],
             ),
             RoundedIconButton(
-              onPressed: () {
+              onPressed: () async {
+                List<Ticket> tickets = await TicketService().getUserTickets(userId);
+                if (tickets.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text(
+                        'Select Ticket',
+                        style: Theme.of(context).textTheme.headline6?.copyWith(color: kAccentColor, fontWeight: FontWeight.bold),
+                      ),
+                      backgroundColor: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        side: const BorderSide(color: kAccentColor, width: 2.0),
+                      ),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: [
+                            ...tickets.map((ticket) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => TicketPageDialog(ticket: ticket),
+                                      );
+                                    },
+                                    child: Text(
+                                      ticket.eventName,
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kSecondaryColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => TicketPageDialog(ticket: ticket),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Click for details",
+                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kColorPrimaryVariant, fontSize: 14),
+                                    ),
+                                  ),
+                                  const Divider(color: kAccentColor, thickness: 2.0),
+                                ],
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
+                    )
+
+                  );
+                }
               },
               iconData: Icons.padding_outlined,
               buttonColor: kAccentColor,
               iconSize: width / 20,
               paddingReduce: 4,
             ),
-
           ],
         ),
         SizedBox(height: width * 0.03),
-        Text(
-          "You have no tickets at the moment.",
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor)
+        FutureBuilder<List<Ticket>>(
+          future: TicketService().getUserTickets(userId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text('');
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              List<String> eventNames = snapshot.data!.map((ticket) => ticket.eventName).toList();
+              String allEventNames = eventNames.join(" , ");
+              return GestureDetector(
+                onTap: () {
+                },
+                child: Text(
+                  "You have tickets for $allEventNames. Enjoy the event!",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor),
+                ),
+              );
+            } else {
+              return Text(
+                "You don't have a ticket yet. Check out the events suitable for you on the homepage to purchase a ticket.",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor),
+              );
+            }
+          },
         ),
       ],
     );
   }
-
 }

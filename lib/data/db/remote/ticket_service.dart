@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 
 import '../entity/app_user.dart';
 import '../../provider/user_provider.dart';
-import '../../model/event_model.dart';
-import '../../model/ticket_model.dart';
+import '../entity/event.dart';
+import '../entity/ticket.dart';
 
 class TicketService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -98,13 +98,9 @@ class TicketService {
             .get();
 
         Set<String> userIdsWithTickets = ticketSnapshot.docs.map((doc) => doc['userId'] as String).toSet();
-
-        // Her bir kullanıcı belgesini almak için döngü
         for (String userId in userIdsWithTickets) {
-          // Kullanıcı belgesini veritabanından al
           DocumentSnapshot<Map<String, dynamic>> userSnapshot = await _db.collection('users').doc(userId).get();
           if (userSnapshot.exists) {
-            // Kullanıcı belgesini AppUser nesnesine dönüştür ve listeye ekle
             usersWithTickets.add(AppUser.fromSnapshot(userSnapshot));
           }
         }
@@ -141,5 +137,22 @@ class TicketService {
     }
   }
 
+  Future<List<Ticket>> getUserTickets(String userId) async {
+    try {
+      QuerySnapshot ticketSnapshot = await _db
+          .collection(_collectionName)
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      List<Ticket> userTickets = ticketSnapshot.docs.map((doc) => Ticket.fromSnapshot(doc)).toList();
+
+      return userTickets;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error getting user's tickets: $e");
+      }
+      throw e;
+    }
+  }
 
 }

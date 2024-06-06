@@ -54,13 +54,8 @@ class _MatchScreenState extends State<MatchScreen> {
 
   Future<AppUser?> loadPerson(String myUserId, String eventId) async {
     try {
-      // Etkinlikteki diğer katılımcıları al
       List<AppUser> usersWithTickets = await _ticketService.getUsersWithTicketsForEvents([eventId]);
-
-      // Kendi kullanıcı ID'sini filtrele
       usersWithTickets.removeWhere((user) => user.id == myUserId);
-
-      // Kullanıcının daha önce swipe ettiği kişileri filtrele
       List<String> swipedUserIds = await getSwipedUserIds(myUserId);
       usersWithTickets.removeWhere((user) => swipedUserIds.contains(user.id));
 
@@ -131,27 +126,23 @@ class _MatchScreenState extends State<MatchScreen> {
                 return CustomModalProgressHUD(
                   inAsyncCall: userProvider.user == null || userProvider.isLoading,
                   key: UniqueKey(),
-                  offset: const Offset(0, 0),
                   child: (userSnapshot.hasData)
                       ? Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0 , vertical: 16),
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
+                             Row(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: kPrimaryColor,
-                                  ),
-                                  child: const Icon(Icons.event, color: kAccentColor),
-                                ),
-                                const Text(
+                                Text(
                                   'Your Tickets',
-                                  style: TextStyle(color: kAccentColor, fontSize: 16, fontWeight: FontWeight.bold),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      ?.copyWith(color: kAccentColor),
                                 ),
                               ],
                             ),
@@ -212,7 +203,6 @@ class _MatchScreenState extends State<MatchScreen> {
                               return CustomModalProgressHUD(
                                 inAsyncCall: true,
                                 key: UniqueKey(),
-                                offset: const Offset(0, 0),
                                 child: Container(),
                               );
                             }
@@ -261,10 +251,8 @@ class _MatchScreenState extends State<MatchScreen> {
                           },
                         ),
                       ),
-
-
-
                     ],
+
                   )
                       : Container(),
                 );

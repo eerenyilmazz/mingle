@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mingle/ui/widgets/ui_helper.dart';
 import '../../utils/constants.dart';
 import '../../utils/text_style.dart';
-import '../../data/model/event_model.dart';
+import '../../data/db/entity/event.dart';
 import '../../utils/datetime_utils.dart';
 
 class NearbyEventCard extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/ui/widgets/ui_helper.dart';
 
-import '../../data/model/event_model.dart';
+import '../../data/db/entity/event.dart';
 import '../../utils/constants.dart';
 import '../../utils/datetime_utils.dart';
 import '../../utils/text_style.dart';
@@ -66,7 +66,7 @@ class UpComingEventCard extends StatelessWidget {
           ),
         ),
         UIHelper.horizontalSpace(16),
-        Expanded( // Eklendi: Row'un genişliğini genişletmek için Expanded widget eklendi
+        Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

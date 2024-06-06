@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mingle/ui/screens/top_navigation_screens/profile_screen.dart';
 import '../../data/model/top_navigation_item.dart';
 import '../../utils/constants.dart';
-import 'home_page.dart';
+import 'top_navigation_screens/home_page.dart';
 import 'top_navigation_screens/chats_screen.dart';
 import 'top_navigation_screens/match_screen.dart';
 
@@ -16,7 +16,7 @@ class TopNavigationScreen extends StatelessWidget {
 
     ),
     TopNavigationItem(
-      screen: ProfileScreen(),
+      screen: const ProfileScreen(),
       iconData: Icons.person,
       color: kAccentColor,
 

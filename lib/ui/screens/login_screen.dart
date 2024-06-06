@@ -75,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),
-          offset: const Offset(0, 0),
           child: Padding(
             padding: kDefaultPadding,
             child: Container(

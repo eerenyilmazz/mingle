@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               duration: const Duration(seconds: 1),
               child: Text(
                 'Mingle',
-                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: kAccentColor),
               ),
             ),
           ],

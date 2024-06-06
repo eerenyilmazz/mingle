@@ -24,7 +24,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
         "other_user_id": chatWithUser.user.id
       });
     } else {
-      // Handle case where user is null
     }
   }
 
@@ -55,41 +54,47 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     future: userProvider.user,
                     builder: (context, userSnapshot) {
                       return CustomModalProgressHUD(
-                        inAsyncCall:
-                        userSnapshot.data == null || userProvider.isLoading,
+                        inAsyncCall: userSnapshot.data == null || userProvider.isLoading,
                         key: UniqueKey(),
-                        offset: const Offset(0,0),
                         child: (userSnapshot.hasData && userSnapshot.data != null)
                             ? FutureBuilder<List<ChatWithUser>>(
-                            future: userProvider
-                                .getChatsWithUser(userSnapshot.data!.id),
-                            builder: (context, chatWithUsersSnapshot) {
-                              if (chatWithUsersSnapshot.data == null &&
-                                  chatWithUsersSnapshot.connectionState !=
-                                      ConnectionState.done) {
-                                return CustomModalProgressHUD(
-                                    inAsyncCall: true, key: UniqueKey(),
-                                    offset: const Offset(0,0),
-                                    child: Container());
-                              } else {
-                                return (chatWithUsersSnapshot.data != null && chatWithUsersSnapshot.data!.length == 0)
-                                    ? Center(
-                                  child: Container(
-                                      child: Text('No matches',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4?.copyWith(color: kAccentColor))),
-                                )
-                                    : ChatsList( // Define ChatsList widget
-                                  chatWithUserList:
-                                  chatWithUsersSnapshot.data!,
-                                  onChatWithUserTap: chatWithUserPressed,
-                                  myUserId: userSnapshot.data!.id,
-                                );
-                              }
-                            })
+                          future: userProvider.getChatsWithUser(userSnapshot.data!.id),
+                          builder: (context, chatWithUsersSnapshot) {
+                            if (chatWithUsersSnapshot.data == null &&
+                                chatWithUsersSnapshot.connectionState !=
+                                    ConnectionState.done) {
+                              return Center(
+                                child: CustomModalProgressHUD(
+                                  inAsyncCall: true,
+                                  key: UniqueKey(),
+                                  child: Container(),
+                                ),
+                              );
+                            } else {
+                              return (chatWithUsersSnapshot.data != null &&
+                                  chatWithUsersSnapshot.data!.length == 0)
+                                  ? Center(
+                                child: Container(
+                                  child: Text(
+                                    'No matches',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        ?.copyWith(color: kAccentColor),
+                                  ),
+                                ),
+                              )
+                                  : ChatsList(
+                                chatWithUserList: chatWithUsersSnapshot.data!,
+                                onChatWithUserTap: chatWithUserPressed,
+                                myUserId: userSnapshot.data!.id,
+                              );
+                            }
+                          },
+                        )
                             : Container(),
                       );
+
                     },
                   );
                 },

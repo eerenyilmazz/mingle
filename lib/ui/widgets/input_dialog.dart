@@ -41,7 +41,8 @@ class _InputDialogState extends State<InputDialog> {
         textController: textController,
       ),
       actions: <Widget>[
-        TextButton( // Changed from FlatButton to TextButton
+        TextButton(
+
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kAccentColor),
           ),
@@ -50,7 +51,7 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'CANCEL',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor), // Corrected the text color
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor),
           ),
         ),
         TextButton(
@@ -63,7 +64,7 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'SAVE',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor), // Corrected the text color
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor),
           ),
         ),
 

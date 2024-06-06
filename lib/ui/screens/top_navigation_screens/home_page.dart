@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mingle/utils/constants.dart';
-import '../../data/db/remote/event_service.dart';
-import '../../data/model/event_model.dart';
-import '../../utils/app_utils.dart';
-import '../../utils/text_style.dart';
-import '../widgets/home_bg_color.dart';
-import '../widgets/nearby_event_card.dart';
-import '../widgets/ui_helper.dart';
-import '../widgets/upcoming_event_card.dart';
-import 'event_detail_page.dart';
+import '../../../data/db/remote/event_service.dart';
+import '../../../data/db/entity/event.dart';
+import '../../../utils/app_utils.dart';
+import '../../../utils/text_style.dart';
+import '../../widgets/home_bg_color.dart';
+import '../../widgets/nearby_event_card.dart';
+import '../../widgets/ui_helper.dart';
+import '../../widgets/upcoming_event_card.dart';
+import '../event_detail_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

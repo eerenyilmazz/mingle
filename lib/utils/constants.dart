@@ -7,7 +7,7 @@ const kDefaultPadding = EdgeInsets.symmetric(
 
 const kPrimaryColor = Color(0xFFFFFFFF);
 const kSecondaryColor = Colors.black;
-const kAccentColor = Color(0xFFB22044);
+const kAccentColor = Color(0xfffd5167);
 
 const kColorPrimaryVariant = Color(0xFF424242);
 
@@ -24,7 +24,7 @@ const kTextTheme = TextTheme(
 const kButtonTheme = ButtonThemeData(
   splashColor: Colors.transparent,
   padding: EdgeInsets.symmetric(vertical: 14),
-  buttonColor: Color(0xFFB22044),
+  buttonColor: Color(0xfffd5167),
   textTheme: ButtonTextTheme.accent,
   highlightColor: Color.fromRGBO(0, 0, 0, .3),
   focusColor: Color.fromRGBO(0, 0, 0, .3),

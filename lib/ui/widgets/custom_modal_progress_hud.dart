@@ -22,12 +22,15 @@ import '../../utils/constants.dart';
 ///
 /// HUD=Heads Up Display
 ///
+import 'package:flutter/material.dart';
+import '../../utils/constants.dart';
+
 class CustomModalProgressHUD extends StatelessWidget {
   final bool inAsyncCall;
   final double opacity;
   final Color color;
   final Widget progressIndicator;
-  final Offset offset;
+  final Offset? offset; // Offset nullable yapıldı
   final bool dismissible;
   final Widget child;
 
@@ -38,12 +41,10 @@ class CustomModalProgressHUD extends StatelessWidget {
     this.color = Colors.transparent,
     this.progressIndicator = const CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(kAccentColor)),
-    required this.offset,
+    this.offset,
     this.dismissible = false,
     required this.child,
-  })  : assert(child != null),
-        assert(inAsyncCall != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,25 +52,25 @@ class CustomModalProgressHUD extends StatelessWidget {
     widgetList.add(child);
     if (inAsyncCall) {
       Widget layOutProgressIndicator;
-      if (offset == null)
-        layOutProgressIndicator = Center(child: progressIndicator);
-      else {
+      if (offset == null) {
+        layOutProgressIndicator = Center(child: progressIndicator); // Offset null ise merkezde göster
+      } else {
         layOutProgressIndicator = Positioned(
           child: progressIndicator,
-          left: offset.dx,
-          top: offset.dy,
+          left: offset!.dx,
+          top: offset!.dy,
         );
       }
       final modal = [
-        new Opacity(
-          child: new ModalBarrier(dismissible: dismissible, color: color),
+        Opacity(
+          child: ModalBarrier(dismissible: dismissible, color: color),
           opacity: opacity,
         ),
         layOutProgressIndicator
       ];
       widgetList += modal;
     }
-    return new Stack(
+    return Stack(
       children: widgetList,
     );
   }

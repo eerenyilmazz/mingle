@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../utils/shared_preferences_utils.dart';
 import '../../utils/utils.dart';
@@ -57,7 +58,9 @@ class UserProvider extends ChangeNotifier {
         await SharedPreferencesUtil.setUserId(id);
         _user = user;
         notifyListeners();
-        print('Kayıt ve profil fotoğrafı yükleme başarılı.');
+        if (kDebugMode) {
+          print('Kayıt ve profil fotoğrafı yükleme başarılı.');
+        }
         return AuthResponse.success(user);
       } else if (uploadResponse is Error<String>) {
         print('Profil fotoğrafı yükleme başarısız: ${uploadResponse.message}');

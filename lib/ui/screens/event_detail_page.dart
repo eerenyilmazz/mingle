@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:mingle/ui/screens/ticket_page.dart';
 import 'package:mingle/ui/widgets/rounded_button.dart';
 
@@ -9,8 +8,8 @@ import 'package:mingle/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/db/entity/app_user.dart';
-import '../../data/model/event_model.dart';
-import '../../data/model/ticket_model.dart';
+import '../../data/db/entity/event.dart';
+import '../../data/db/entity/ticket.dart';
 import '../../data/db/remote/ticket_service.dart';
 import '../widgets/ui_helper.dart';
 import '../../utils/datetime_utils.dart';
@@ -112,7 +111,6 @@ class _EventDetailPageState extends State<EventDetailPage>
                           UIHelper.verticalSpace(24),
                           buildEventLocation(),
                           UIHelper.verticalSpace(124),
-                          //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
                         ],
                       ),
                     ),
@@ -267,10 +265,8 @@ class _EventDetailPageState extends State<EventDetailPage>
           children: <Widget>[
             Text(DateTimeUtils.getDayOfWeek(event.eventDate), style: titleStyle.copyWith(color: kSecondaryColor)),
             UIHelper.verticalSpace(4),
-            Text(
-              DateFormat('hh:mm a').format(event.eventDate.toLocal()),
-              style: subtitleStyle.copyWith(color: kSecondaryColor),
-            ),
+            Text(DateTimeUtils.getFullDate(event.eventDate), style: titleStyle.copyWith(color: kSecondaryColor)),
+
           ],
         ),
       ],
@@ -360,9 +356,9 @@ class _EventDetailPageState extends State<EventDetailPage>
       future: _getButtonLabel(event),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Placeholder widget while loading
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}'); // Error handling
+          return Text('Error: ${snapshot.error}');
         } else {
           final String buttonLabel = snapshot.data!;
           return Container(
@@ -440,7 +436,7 @@ class _EventDetailPageState extends State<EventDetailPage>
       } else {
         try {
           await ticketService.buyTicket(event);
-          setState(() {}); // Trigger UI rebuild
+          setState(() {});
           showDialog(
             context: context,
             builder: (BuildContext context) {
