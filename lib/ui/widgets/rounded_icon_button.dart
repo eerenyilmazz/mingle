@@ -7,30 +7,34 @@ class RoundedIconButton extends StatelessWidget {
   final double iconSize;
   final double paddingReduce;
   final Color? buttonColor;
-  final Color borderColor; // New parameter for border color
-  final double borderWidth; // New parameter for border width
+  final Color? iconColor; // Icon color
+  final Color borderColor;
+  final double borderWidth;
 
-  const RoundedIconButton({super.key,
+  const RoundedIconButton({
+    super.key, // key parameter added
     required this.onPressed,
     required this.iconData,
     this.iconSize = 30,
     this.buttonColor,
+    this.iconColor, // Icon color
     this.paddingReduce = 0,
-    this.borderColor = kPrimaryColor, // Default border color is primary color
-    this.borderWidth = 4.0, // Default border width is 1.0
+    this.borderColor = kPrimaryColor,
+    this.borderWidth = 4.0,
   });
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Color color = buttonColor ?? theme.buttonTheme.colorScheme?.background ?? theme.colorScheme.primary;
+    const Color iconColorFinal = kPrimaryColor; // Icon color
 
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: borderColor, // Border color
-          width: borderWidth, // Border width
+          color: borderColor,
+          width: borderWidth,
         ),
       ),
       child: MaterialButton(
@@ -41,7 +45,7 @@ class RoundedIconButton extends StatelessWidget {
         onPressed: onPressed,
         padding: EdgeInsets.all((iconSize / 2) - paddingReduce),
         shape: const CircleBorder(),
-        child: Icon(iconData, size: iconSize),
+        child: Icon(iconData, size: iconSize, color: iconColorFinal), // Icon color
       ),
     );
   }

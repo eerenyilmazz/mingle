@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     await _userProvider.registerUser(_userRegistration, _scaffoldKey).then((response) {
       if (response is Success) {
-        Navigator.of(context).pushNamedAndRemoveUntil(TopNavigationScreen.id, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, TopNavigationScreen.id, (route) => false);
       } else {
         setState(() {
           _isLoading = false;
@@ -54,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     });
   }
+
 
   void goBackPressed() {
     if (_currentScreenIndex == 0) {
@@ -118,7 +119,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldKey,
-        appBar: AppBar(title: const Text('Register')),
+        appBar: AppBar
+          (
+          title: const Text('Register'),
+        backgroundColor: kPrimaryColor,),
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),

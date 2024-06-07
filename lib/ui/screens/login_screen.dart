@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.')),
+        const SnackBar(content: Text('An error occurred while logging in. Please try again.')),
       );
     }
   }
@@ -69,9 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
+        appBar: AppBar
+          (
           title: const Text('Login'),
-        ),
+          backgroundColor: kPrimaryColor,),
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),

@@ -3,7 +3,7 @@ import '../../utils/constants.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed; // Change to VoidCallback
+  final VoidCallback onPressed;
 
   RoundedButton({required this.text, required this.onPressed});
 
@@ -11,9 +11,9 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: ElevatedButton( // Change RaisedButton to ElevatedButton
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: kAccentColor, // Text color
+          foregroundColor: kPrimaryColor, backgroundColor: kAccentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),

@@ -34,7 +34,7 @@ class BorderedTextField extends StatelessWidget {
       style: TextStyle(color: color),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: kSecondaryColor.withOpacity(0.5)),
+        labelStyle: const TextStyle(color: kAccentColor),
         border: const UnderlineInputBorder(),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: color),
