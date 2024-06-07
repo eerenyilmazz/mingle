@@ -23,19 +23,19 @@ Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu u
 
 ### Tickets Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/fa955cd2-c343-499c-b280-3f5edaae579b" width="300">
-- **Açıklama:** Bilet bilgilerini tutan koleksiyon.
+- Açıklama:Bilet bilgilerini tutan koleksiyon.
 
 ### Events Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/935fb8d7-4bac-421c-8b52-66cc86db51eb" width="300">
-- **Açıklama:** Etkinlik bilgilerini içeren koleksiyon.
+- Açıklama: Etkinlik bilgilerini içeren koleksiyon.
 
 ### Chats Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/34cf116b-26e6-4d71-95bd-04a7c5900126" width="300">
-- **Açıklama:** Kullanıcılar arasındaki mesajları saklayan koleksiyon.
+- Açıklama: Kullanıcılar arasındaki mesajları saklayan koleksiyon.
 
 ### Users Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/648fbb97-cfa9-4227-9f02-de31463ece35" width="300">
-- **Açıklama:** Kullanıcı bilgilerini içeren koleksiyon.
+- Açıklama: Kullanıcı bilgilerini içeren koleksiyon.
 
 ## Uygulama Ekran Görüntüleri
 
@@ -53,7 +53,6 @@ Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu u
 
 ### Etkinlik Detay Sayfası
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/f5a29a6f-a90a-48ff-8e0c-6af5d3d946ea" width="200">
-### Bilet Görüntüleme
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/64ef69a9-53a7-4c0b-bf01-3cea34a07aca" width="200">
 
 ### Profil Sayfası ve Düzenleme Ekranları
