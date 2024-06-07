@@ -1,4 +1,4 @@
-# Mingle
+# Mingle (Geliştirme Sürecinde..)
 
 Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu uygulama, etkinlikleri görüntüleyebileceğiniz, etkinliklere katılabileceğiniz, katılımcılarla eşleşebileceğiniz ve iletişim kurabileceğiniz bir platform sağlar. Firebase kullanılarak kullanıcı kimlik doğrulaması, veritabanı yönetimi ve mesajlaşma işlevselliği sağlanmıştır.
 
