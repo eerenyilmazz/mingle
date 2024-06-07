@@ -23,15 +23,15 @@ Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu u
 
 ### Tickets Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/fa955cd2-c343-499c-b280-3f5edaae579b" width="300">
-**Açıklama:** Bilet bilgilerini tutan koleksiyon.
+- **Açıklama:** Bilet bilgilerini tutan koleksiyon.
 
 ### Events Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/935fb8d7-4bac-421c-8b52-66cc86db51eb" width="300">
-**Açıklama:** Etkinlik bilgilerini içeren koleksiyon.
+- **Açıklama:** Etkinlik bilgilerini içeren koleksiyon.
 
 ### Chats Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/34cf116b-26e6-4d71-95bd-04a7c5900126" width="300">
-**Açıklama:** Kullanıcılar arasındaki mesajları saklayan koleksiyon.
+- **Açıklama:** Kullanıcılar arasındaki mesajları saklayan koleksiyon.
 
 ### Users Collection
 <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/648fbb97-cfa9-4227-9f02-de31463ece35" width="300">
