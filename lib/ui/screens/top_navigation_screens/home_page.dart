@@ -178,7 +178,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             children: <Widget>[
               const Text("Nearby Concerts", style: headerStyle),
               const Spacer(),
-              const Icon(Icons.more_horiz),
               UIHelper.horizontalSpace(16),
             ],
           ),

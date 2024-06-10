@@ -425,14 +425,17 @@ class _EventDetailPageState extends State<EventDetailPage>
             builder: (BuildContext context) {
               return AlertDialog(
                 backgroundColor: kPrimaryColor,
-                title: const Text("Bilet Satın Alındı"),
-                content: Text("${event.name} etkinliği için başarıyla bir bilet satın aldınız."),
+                title: Text(
+                  'Ticket Purchased!',
+                  style: titleStyle.copyWith(color: kAccentColor, fontWeight: FontWeight.bold),
+                ),
+                content: Text("You have successfully purchased a ticket for event ${event.name}."),
                 actions: [
                   RoundedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    text: 'Tamam',
+                    text: 'Okey',
                   ),
                 ],
               );
@@ -444,14 +447,14 @@ class _EventDetailPageState extends State<EventDetailPage>
             builder: (BuildContext context) {
               return AlertDialog(
                 backgroundColor: kPrimaryColor,
-                title: const Text("Hata"),
-                content: const Text("Bilet satın alma işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."),
+                title: const Text("Mistake!"),
+                content: const Text("Ticket purchase failed. Please try again later."),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Tamam"),
+                    child: const Text("Okey!"),
                   ),
                 ],
               );
