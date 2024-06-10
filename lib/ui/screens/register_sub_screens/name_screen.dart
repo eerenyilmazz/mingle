@@ -18,11 +18,11 @@ class NameScreen extends StatelessWidget {
             children: [
               Text(
                 'My first',
-                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
               ),
               Text(
                 'name is',
-                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
               ),
             ],
           ),

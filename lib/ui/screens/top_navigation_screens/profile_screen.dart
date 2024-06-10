@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           future: context.watch<UserProvider>().user,
           builder: (context, userSnapshot) {
             if (!userSnapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: kAccentColor,));
             }
             AppUser user = userSnapshot.data!;
             return Column(
@@ -166,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Icon(Icons.person, size: width / 15, color: kAccentColor),
                 SizedBox(width: width * 0.02),
-                Text('Biography', style: Theme.of(context).textTheme.titleLarge),
+                Text('Biography', style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
             RoundedIconButton(
@@ -207,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Icon(Icons.event, size: width / 15, color: kAccentColor),
                 SizedBox(width: width * 0.02),
-                Text('My Tickets', style: Theme.of(context).textTheme.headline6),
+                Text('My Tickets', style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
             RoundedIconButton(
@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     builder: (_) => AlertDialog(
                       title: Text(
                         'Select Ticket',
-                        style: Theme.of(context).textTheme.headline6?.copyWith(color: kAccentColor, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: kAccentColor, fontWeight: FontWeight.bold),
                       ),
                       backgroundColor: kPrimaryColor,
                       shape: RoundedRectangleBorder(
@@ -243,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     },
                                     child: Text(
                                       ticket.eventName,
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kSecondaryColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kSecondaryColor, fontWeight: FontWeight.bold, fontSize: 16),
                                     ),
                                   ),
                                   const SizedBox(height: 4),
@@ -257,7 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     },
                                     child: Text(
                                       "Click for details",
-                                      style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kColorPrimaryVariant, fontSize: 14),
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: kColorPrimaryVariant, fontSize: 14),
                                     ),
                                   ),
                                   const Divider(color: kAccentColor, thickness: 2.0),

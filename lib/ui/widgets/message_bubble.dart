@@ -30,7 +30,7 @@ class MessageBubble extends StatelessWidget {
                     width: double.infinity,
                     child: Text(convertEpochMsToDateTime(epochTimeMs),
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontSize: 14, fontWeight: FontWeight.normal)),
                   ),
                 )
@@ -48,7 +48,7 @@ class MessageBubble extends StatelessWidget {
                     vertical: 10.0, horizontal: 20.0),
                 child: Text(
                   text,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: kPrimaryColor, fontWeight: FontWeight.normal),
                 ),
               ),

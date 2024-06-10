@@ -19,7 +19,7 @@ class RoundedOutlinedButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Text(text, style: Theme.of(context).textTheme.button),
+        child: Text(text, style: Theme.of(context).textTheme.bodySmall),
       ),
     );
   }

@@ -119,10 +119,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldKey,
-        appBar: AppBar
-          (
-          title: const Text('Register'),
-        backgroundColor: kPrimaryColor,),
+        appBar: AppBar(
+          title: Text(
+            'Register',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kAccentColor),
+          ),
+          backgroundColor: kPrimaryColor,
+        ),
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),

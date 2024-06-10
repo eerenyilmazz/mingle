@@ -28,11 +28,11 @@ class _AgeScreenState extends State<AgeScreen> {
             children: [
               Text(
                 'My',
-                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
               ),
               Text(
                 'age is',
-                style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
               ),
             ],
           ),
@@ -43,6 +43,7 @@ class _AgeScreenState extends State<AgeScreen> {
               child: NumberPicker(
                   textStyle: const TextStyle(color: kSecondaryColor),
                   itemWidth: double.infinity,
+                  selectedTextStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: kAccentColor),
                   decoration: BoxDecoration(
                     border: Border.all(color: kColorPrimaryVariant, width: 2),
                     borderRadius: BorderRadius.circular(10),

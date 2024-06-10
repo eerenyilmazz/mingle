@@ -16,9 +16,9 @@ const kBackgroundColorInt = 0xFF1D1C1C;
 const kFontFamily = 'Nunito';
 
 const kTextTheme = TextTheme(
-  headline1: TextStyle(),
-  bodyText1: TextStyle(),
-  bodyText2: TextStyle(),
+  displaySmall: TextStyle(),
+  bodyLarge: TextStyle(),
+  bodyMedium: TextStyle(),
 );
 
 const kButtonTheme = ButtonThemeData(

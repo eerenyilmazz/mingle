@@ -25,6 +25,8 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
   AnimationController? _animationController;
   Animation<Offset>? _animation;
 
+  Color shadowColor = Colors.black;
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +46,13 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
       currentDragOffset = details.localPosition - startDragOffset;
+      if (currentDragOffset.dx > 0) {
+        shadowColor = kAccentColor;
+      } else if (currentDragOffset.dx < 0) {
+        shadowColor = kColorPrimaryVariant;
+      } else {
+        shadowColor = kPrimaryColor;
+      }
     });
   }
 
@@ -77,6 +86,7 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
   void _resetCardPosition() {
     setState(() {
       currentDragOffset = Offset.zero;
+      shadowColor = kSecondaryColor;
     });
     _animationController?.reset();
   }
@@ -101,6 +111,17 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
             Container(
               height: MediaQuery.of(context).size.height * 0.725,
               width: MediaQuery.of(context).size.width * 0.85,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+                boxShadow: currentDragOffset == Offset.zero ? [] : [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 5.0,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25.0),
                 child: Image.network(widget.person.profilePhotoPath, fit: BoxFit.cover),
@@ -129,7 +150,7 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
                                       text: widget.person.name,
                                       style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: kPrimaryColor),
                                     ),
-                                    TextSpan(text: '  ${widget.person.age}', style: const TextStyle(fontSize: 20, color:kPrimaryColor)),
+                                    TextSpan(text: '  ${widget.person.age}', style: const TextStyle(fontSize: 20, color: kPrimaryColor)),
                                   ],
                                 ),
                               ),
@@ -167,7 +188,7 @@ class _SwipeCardState extends State<SwipeCard> with SingleTickerProviderStateMix
                               opacity: 0.8,
                               child: Text(
                                 widget.person.bio.isNotEmpty ? widget.person.bio : "No bio.",
-                                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor),
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: kPrimaryColor),
                               ),
                             ),
                           ),

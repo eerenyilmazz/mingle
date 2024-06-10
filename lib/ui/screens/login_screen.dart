@@ -69,10 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar
-          (
-          title: const Text('Login'),
-          backgroundColor: kPrimaryColor,),
+        appBar: AppBar(
+          title: Text(
+            'Login',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kAccentColor),
+          ),
+          backgroundColor: kPrimaryColor,
+        ),
         body: CustomModalProgressHUD(
           inAsyncCall: _isLoading,
           key: UniqueKey(),
@@ -85,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     'Login to your account',
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
                   ),
                   const SizedBox(height: 40),
                   BorderedTextField(

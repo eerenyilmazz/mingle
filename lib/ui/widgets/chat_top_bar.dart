@@ -61,7 +61,7 @@ class ChatTopBar extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               user.bio,
-                              style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: kPrimaryColor,
                               ),
                             ),
@@ -108,7 +108,7 @@ class ChatTopBar extends StatelessWidget {
           children: [
             Text(
               user.name,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: kSecondaryColor,
               ),
             ),

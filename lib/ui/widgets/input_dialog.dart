@@ -51,7 +51,7 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'CANCEL',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: kPrimaryColor),
           ),
         ),
         TextButton(
@@ -64,7 +64,7 @@ class _InputDialogState extends State<InputDialog> {
           },
           child: Text(
             'SAVE',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kPrimaryColor),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: kPrimaryColor),
           ),
         ),
 

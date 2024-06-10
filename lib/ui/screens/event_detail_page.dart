@@ -33,7 +33,6 @@ class _EventDetailPageState extends State<EventDetailPage>
   late Animation<double> scale;
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
-  bool isFavorite = false;
   final TicketService _ticketService = TicketService();
 
 
@@ -210,22 +209,6 @@ class _EventDetailPageState extends State<EventDetailPage>
             ),
             if (hasTitle)
               Text(event.name, style: titleStyle.copyWith(color: kAccentColor)),
-            Card(
-              shape: const CircleBorder(),
-              elevation: 0,
-              color: kAccentColor,
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: () => setState(() => isFavorite = !isFavorite),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: kPrimaryColor,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

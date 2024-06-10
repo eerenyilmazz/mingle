@@ -49,6 +49,7 @@ dependencies:
   numberpicker: ^2.1.2
   qr_flutter: ^4.1.0
   image_gallery_saver: ^2.0.3
+  firebase_app_check: ^0.2.2+7
 
 dev_dependencies:
   flutter_test:

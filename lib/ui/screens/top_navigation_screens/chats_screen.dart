@@ -16,15 +16,16 @@ class ChatsScreen extends StatefulWidget {
 
 class _ChatsScreenState extends State<ChatsScreen> {
   void chatWithUserPressed(ChatWithUser chatWithUser) async {
-    AppUser? user = await Provider.of<UserProvider>(context, listen: false).user;
+    AppUser? user = await Provider
+        .of<UserProvider>(context, listen: false)
+        .user;
     if (user != null) {
       Navigator.pushNamed(context, ChatScreen.id, arguments: {
         "chat_id": chatWithUser.chat.id,
         "user_id": user.id,
         "other_user_id": chatWithUser.user.id
       });
-    } else {
-    }
+    } else {}
   }
 
   @override
@@ -54,11 +55,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     future: userProvider.user,
                     builder: (context, userSnapshot) {
                       return CustomModalProgressHUD(
-                        inAsyncCall: userSnapshot.data == null || userProvider.isLoading,
+                        inAsyncCall: userSnapshot.data == null ||
+                            userProvider.isLoading,
                         key: UniqueKey(),
-                        child: (userSnapshot.hasData && userSnapshot.data != null)
+                        child: (userSnapshot.hasData &&
+                            userSnapshot.data != null)
                             ? FutureBuilder<List<ChatWithUser>>(
-                          future: userProvider.getChatsWithUser(userSnapshot.data!.id),
+                          future: userProvider.getChatsWithUser(
+                              userSnapshot.data!.id),
                           builder: (context, chatWithUsersSnapshot) {
                             if (chatWithUsersSnapshot.data == null &&
                                 chatWithUsersSnapshot.connectionState !=
@@ -77,9 +81,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                 child: Container(
                                   child: Text(
                                     'No matches',
-                                    style: Theme.of(context)
+                                    style: Theme
+                                        .of(context)
                                         .textTheme
-                                        .headline4
+                                        .titleLarge
                                         ?.copyWith(color: kAccentColor),
                                   ),
                                 ),
@@ -94,7 +99,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         )
                             : Container(),
                       );
-
                     },
                   );
                 },

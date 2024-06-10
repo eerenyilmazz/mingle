@@ -52,7 +52,7 @@ class _ChatsListState extends State<ChatsList> {
   Widget build(BuildContext context) {
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) =>
-          const Divider(color: kColorPrimaryVariant),
+          const Divider(color: kAccentColor),
       itemCount: widget.chatWithUserList.length,
       itemBuilder: (BuildContext _, int index) => ChatListTile(
         chatWithUser: widget.chatWithUserList[index],

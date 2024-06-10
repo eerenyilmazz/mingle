@@ -27,7 +27,7 @@ class StartScreen extends StatelessWidget {
                   "Join events with Mingle and meet brand new people! Don't wait any longer to "
                       "dive into exciting moments and have a great time. Start expanding your social circle now!",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 60),
                 RoundedButton(

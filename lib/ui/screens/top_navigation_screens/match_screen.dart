@@ -141,7 +141,7 @@ class _MatchScreenState extends State<MatchScreen> {
                                   'Your Tickets',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .titleLarge
                                       ?.copyWith(color: kAccentColor),
                                 ),
                               ],
@@ -195,7 +195,7 @@ class _MatchScreenState extends State<MatchScreen> {
                             if (snapshot.connectionState == ConnectionState.done && snapshot.data == null) {
                               return Center(
                                 child: Container(
-                                  child: Text('No users', style: Theme.of(context).textTheme.headline4?.copyWith(color: kAccentColor)),
+                                  child: Text('No users', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: kAccentColor)),
                                 ),
                               );
                             }

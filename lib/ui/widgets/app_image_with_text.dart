@@ -10,7 +10,7 @@ class AppIconTitle extends StatelessWidget {
       children: [
         Text(
           'Mingle',
-          style: Theme.of(context).textTheme.headline2?.copyWith(color: kAccentColor),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: kAccentColor),
         )
       ],
     );

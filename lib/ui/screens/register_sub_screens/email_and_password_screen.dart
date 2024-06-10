@@ -17,11 +17,11 @@ class EmailAndPasswordScreen extends StatelessWidget {
       children: [
         Text(
           'My Email and',
-          style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
         ),
         Text(
           'Password is',
-          style: Theme.of(context).textTheme.headline3?.copyWith(color: kAccentColor),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: kAccentColor),
         ),
         const SizedBox(height: 25),
         BorderedTextField(
