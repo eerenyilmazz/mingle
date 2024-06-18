@@ -1,82 +1,85 @@
-# Mingle (Geliştirme Sürecinde..)
+# Mingle (In Development..)
 
-Mingle, Dart ve Flutter kullanılarak geliştirilen bir mobil uygulamadır. Bu uygulama, etkinlikleri görüntüleyebileceğiniz, etkinliklere katılabileceğiniz, katılımcılarla eşleşebileceğiniz ve iletişim kurabileceğiniz bir platform sağlar. Firebase kullanılarak kullanıcı kimlik doğrulaması, veritabanı yönetimi ve mesajlaşma işlevselliği sağlanmıştır.
+Mingle is a mobile application developed using Dart and Flutter. This app provides a platform where users can view events, participate in them, match with other attendees, and communicate with them. Firebase is used for user authentication, database management, and messaging functionalities.
 
-## Özellikler
+## Features
 
-- **Etkinliklerin görüntülenmesi ve aranması:** Kullanıcılar, ilgilendikleri etkinlikleri arayabilir ve bu etkinlikler hakkında bilgi edinebilirler.
-- **Etkinliklere katılma ve bilet satın alma:** Kullanıcılar, seçtikleri etkinliklere katılabilir ve bilet satın alabilirler.
-- **Katılımcılar arasında eşleşme yapma:** Kullanıcılar, etkinliklere katılan diğer kullanıcılarla eşleşebilirler.
-- **Eşleşen katılımcılar arasında mesajlaşma:** Eşleşen kullanıcılar arasında mesajlaşma özelliği bulunmaktadır.
+- **Viewing and Searching Events:** Users can search for events of interest and get details about them.
+- **Joining Events and Purchasing Tickets:** Users can join selected events and purchase tickets.
+- **Matching Between Participants:** Users can match with other attendees of events.
+- **Messaging Between Matched Participants:** Messaging functionality is available for matched users.
 
-## Kullanılan Teknolojiler
+## Technologies Used
 
-- **Dart:** Uygulamanın ana programlama dili.
-- **Flutter:** Mobil uygulamanın geliştirilmesi için kullanılan framework.
-- **Firebase:** Auth, Firestore ve Messaging gibi servisler için.
-  - **Auth:** Kullanıcı kimlik doğrulaması.
-  - **Firestore:** Veritabanı yönetimi.
-  - **Messaging:** Mesajlaşma işlevselliği.
-- **Provider:** Durum yönetimi için kullanılan bir paket.
+- **Dart:** The primary programming language for the application.
+- **Flutter:** The framework used for developing the mobile application.
+- **Firebase:** Used for Auth, Firestore, and Messaging services.
+  - **Auth:** User authentication.
+  - **Firestore:** Database management.
+  - **Messaging:** Messaging functionality.
+- **Provider:** Used for state management.
 
 ## Firestore Database
 
-### Biletler Koleksiyon
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/fa955cd2-c343-499c-b280-3f5edaae579b" width="300">
-- Açıklama:Bilet bilgilerini tutan koleksiyon.
+### Tickets Collection
+![Tickets Collection](https://github.com/eerenyilmazz/mingle/assets/76735938/fa955cd2-c343-499c-b280-3f5edaae579b)
 
-### Etkinlikler Koleksiyon
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/935fb8d7-4bac-421c-8b52-66cc86db51eb" width="300">
-- Açıklama: Etkinlik bilgilerini içeren koleksiyon.
+- Description: Collection storing ticket information.
 
-### Sohbetler Koleksiyon
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/34cf116b-26e6-4d71-95bd-04a7c5900126" width="300">
-- Açıklama: Kullanıcılar arasındaki mesajları saklayan koleksiyon.
+### Events Collection
+![Events Collection](https://github.com/eerenyilmazz/mingle/assets/76735938/935fb8d7-4bac-421c-8b52-66cc86db51eb)
 
-### Kullanıcılar Koleksiyon
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/648fbb97-cfa9-4227-9f02-de31463ece35" width="300">
-- Açıklama: Kullanıcı bilgilerini içeren koleksiyon.
+- Description: Collection containing event details.
 
-## Uygulama Ekran Görüntüleri
+### Chats Collection
+![Chats Collection](https://github.com/eerenyilmazz/mingle/assets/76735938/34cf116b-26e6-4d71-95bd-04a7c5900126)
 
-### Başlangıç Ekranı
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/8a52b48b-99a3-4536-8159-e6717e6e075e" width="200">
+- Description: Collection storing messages between users.
 
-### Kayıt Ekranları
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/dcd9a7f9-7aa2-43f9-9eb7-3793636197bc" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/cdc30c8a-94ca-41c2-b811-f2c8051d7309" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/245434f2-c2a1-4fb3-bc71-b200d07dc352" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/374abae8-c497-49bc-8c38-0e050b4c0ccf" width="200">
+### Users Collection
+![Users Collection](https://github.com/eerenyilmazz/mingle/assets/76735938/648fbb97-cfa9-4227-9f02-de31463ece35)
 
-### Giriş Sayfası
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/412f2f4d-9237-4a8b-9616-e9ff8c5448de" width="200">
+- Description: Collection containing user information.
 
-### Ana Sayfa
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/64c33c8d-3408-4326-8d87-54a5a846688f" width="200">
+## Application Screenshots
 
-### Etkinlik Detay Sayfası
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/f5a29a6f-a90a-48ff-8e0c-6af5d3d946ea" width="200">
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/64ef69a9-53a7-4c0b-bf01-3cea34a07aca" width="200">
+### Startup Screen
+![Startup Screen](https://github.com/eerenyilmazz/mingle/assets/76735938/8a52b48b-99a3-4536-8159-e6717e6e075e)
 
-### Profil Sayfası ve Düzenleme Ekranları
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/502a9231-8d12-4e87-b1a2-bd146e54f798" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/79ae18ee-f327-452d-abea-0bcc9f40d78f" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/c8641aa0-1c89-4d34-b8c3-c361ba14aa27" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/1169ea52-e351-40e5-9ad1-3948902af3e4" width="200">
+### Registration Screens
+![Registration Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/dcd9a7f9-7aa2-43f9-9eb7-3793636197bc) ![Registration Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/cdc30c8a-94ca-41c2-b811-f2c8051d7309) ![Registration Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/245434f2-c2a1-4fb3-bc71-b200d07dc352) ![Registration Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/374abae8-c497-49bc-8c38-0e050b4c0ccf)
 
-### Kaydırma Sayfası
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/cfccd0e4-8577-4df1-822c-8f7a776a6515" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/87e33fea-edd8-4834-bc4a-bae3673312b4" width="200">
+### Login Page
+![Login Page](https://github.com/eerenyilmazz/mingle/assets/76735938/412f2f4d-9237-4a8b-9616-e9ff8c5448de)
 
-### Eşleşmeler, Mesajlar ve Mesaj Profil Detayı Sayfaları
-<img src="https://github.com/eerenyilmazz/mingle/assets/76735938/73cbab54-5035-4d84-8a33-b8224001b85e" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/bfe87327-2b59-41e5-8a99-b4560fc2a41a" width="200"> <img src="https://github.com/eerenyilmazz/mingle/assets/76735938/b5191bf0-d8af-46c5-ba5a-e0ee3a3cc19c" width="200">
+### Home Screen
+![Home Screen](https://github.com/eerenyilmazz/mingle/assets/76735938/64c33c8d-3408-4326-8d87-54a5a846688f)
 
-## Projeyi Çalıştırma Adımları
+### Event Detail Page
+![Event Detail Page](https://github.com/eerenyilmazz/mingle/assets/76735938/f5a29a6f-a90a-48ff-8e0c-6af5d3d946ea) ![Event Detail Page](https://github.com/eerenyilmazz/mingle/assets/76735938/64ef69a9-53a7-4c0b-bf01-3cea34a07aca)
 
-### Gerekli Paketlerin Kurulumu
+### Profile and Edit Profile Screens
+![Profile Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/502a9231-8d12-4e87-b1a2-bd146e54f798) ![Profile Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/79ae18ee-f327-452d-abea-0bcc9f40d78f) ![Profile Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/c8641aa0-1c89-4d34-b8c3-c361ba14aa27) ![Profile Screens](https://github.com/eerenyilmazz/mingle/assets/76735938/1169ea52-e351-40e5-9ad1-3948902af3e4)
 
-Projeyi çalıştırmak için öncelikle gerekli bağımlılıkları yüklemeniz gerekmektedir. Aşağıdaki komutu çalıştırarak `pubspec.yaml` dosyasındaki tüm bağımlılıkları yükleyebilirsiniz:
+### Scrollable Page
+![Scrollable Page](https://github.com/eerenyilmazz/mingle/assets/76735938/cfccd0e4-8577-4df1-822c-8f7a776a6515) ![Scrollable Page](https://github.com/eerenyilmazz/mingle/assets/76735938/87e33fea-edd8-4834-bc4a-bae3673312b4)
+
+### Matches, Messages, and Message Profile Detail Pages
+![Matches Page](https://github.com/eerenyilmazz/mingle/assets/76735938/73cbab54-5035-4d84-8a33-b8224001b85e) ![Messages Page](https://github.com/eerenyilmazz/mingle/assets/76735938/bfe87327-2b59-41e5-8a99-b4560fc2a41a) ![Message Profile Detail](https://github.com/eerenyilmazz/mingle/assets/76735938/b5191bf0-d8af-46c5-ba5a-e0ee3a3cc19c)
+
+## Running the Project
+
+### Installing Required Packages
+
+To run the project, first install all the dependencies listed in the `pubspec.yaml` file. You can do this by running the following command:
 
 ```bash
 flutter pub get
 ```
 
-### `pubspec.yaml` Dosyasındaki Bağımlılıklar
+### Dependencies in `pubspec.yaml`
 
-Projede kullanılan bağımlılıkların listesi aşağıdaki gibidir:
+Here are the dependencies used in the project:
 
 ```yaml
 dependencies:
@@ -99,28 +102,26 @@ dependencies:
   image_gallery_saver: ^2.0.3
 ```
 
-### Firebase Kurulumu
+### Setting Up Firebase
 
-1. **Firebase Projesi Oluşturma:**
-   - [Firebase Console](https://console.firebase.google.com/) üzerinden yeni bir proje oluşturun.
-   
-2. **Firebase Config Dosyasını İndirme:**
-   - Projeyi oluşturduktan sonra Android ve iOS için `google-services.json` ve `GoogleService-Info.plist` dosyalarını indirin.
+1. **Create a Firebase Project:**
+   - Create a new project on the [Firebase Console](https://console.firebase.google.com/).
 
-3. **Config Dosyalarını Projeye Ekleme:**
-   - İndirdiğiniz `google-services.json` dosyasını `android/app` dizinine kopyalayın.
-   - İndirdiğiniz `GoogleService-Info.plist` dosyasını `ios/Runner` diz
+2. **Download Firebase Config Files:**
+   - After creating the project, download `google-services.json` for Android and `GoogleService-Info.plist` for iOS.
 
-inine kopyalayın.
+3. **Add Config Files to Your Project:**
+   - Copy `google-services.json` to the `android/app` directory.
+   - Copy `GoogleService-Info.plist` to the `ios/Runner` directory.
 
-4. **Firebase SDK Kurulumu:**
-   - Android için `android/build.gradle` dosyasına aşağıdaki satırı ekleyin:
+4. **Setup Firebase SDK:**
+   - For Android, add the following classpath to `android/build.gradle`:
      ```gradle
      classpath 'com.google.gms:google-services:4.3.3'
      ```
-   - Android için `android/app/build.gradle` dosyasına aşağıdaki satırı ekleyin:
+   - For Android, apply the Google services plugin in `android/app/build.gradle`:
      ```gradle
      apply plugin: 'com.google.gms.google-services'
      ```
 
-Projeyi başarılı bir şekilde çalıştırmak için yukarıdaki adımları takip edebilirsiniz. Eğer herhangi bir sorunla karşılaşırsanız, [Firebase Dokümantasyonu](https://firebase.google.com/docs) ve [Flutter Dokümantasyonu](https://flutter.dev/docs) size yardımcı olabilir.
+Follow these steps to successfully run the project. If you encounter any issues, refer to the [Firebase Documentation](https://firebase.google.com/docs) and [Flutter Documentation](https://flutter.dev/docs) for assistance.
